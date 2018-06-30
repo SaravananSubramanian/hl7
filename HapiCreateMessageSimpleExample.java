@@ -46,7 +46,7 @@ public class HapiCreateMessageSimpleExample {
 			//serialize the message to file if you want to have a look at it
             //provide a path to the output file you want to serialize to below
             //Remember that the file may not show special delimiter characters when using plain text editor
-			File file = new File("C:\\junk\\testFile.txt"); 
+			File file = new File("testFile.txt"); 
 			
 			// quick check to create the file before writing if it does not exist already
 			if (!file.exists()) {
