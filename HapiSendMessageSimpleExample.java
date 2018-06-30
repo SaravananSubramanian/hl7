@@ -29,16 +29,22 @@ public class HapiSendMessageSimpleExample {
 	
 	public static void main(String[] args) throws Exception {
 
+		//create a HL7 message
 		context = new DefaultHapiContext();
 		Parser parser = context.getPipeParser();
-		ADT_A01 adt = createAdtMessage(parser);
+		ADT_A01 adtMessage = createAdtMessage(parser);
 
+		//create a new MLLP client over the specified port
 		Connection connection = context.newClient("localhost", PORT_NUMBER, false);
 
 		// The initiator is used to transmit unsolicited messages
 		Initiator initiator = connection.getInitiator();
-		System.out.println("Sending message:" + "\n" + parser.encode(adt));
-		Message response = initiator.sendAndReceive(adt);
+		
+		//send the previously created HL7 message over the connection established
+		System.out.println("Sending message:" + "\n" + parser.encode(adtMessage));
+		Message response = initiator.sendAndReceive(adtMessage);
+		
+		//display the message response received from the remote party
 		String responseString = parser.encode(response);
 		System.out.println("Received response:\n" + responseString);
 
