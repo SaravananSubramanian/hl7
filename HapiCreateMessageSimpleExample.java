@@ -1,9 +1,15 @@
 package com.saravanansubramanian.hapihl7tutorial;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import ca.uhn.hl7v2.DefaultHapiContext;
+import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
+import ca.uhn.hl7v2.model.DataTypeException;
 import ca.uhn.hl7v2.model.v24.datatype.PL;
 import ca.uhn.hl7v2.model.v24.datatype.XAD;
 import ca.uhn.hl7v2.model.v24.datatype.XCN;
@@ -15,21 +21,64 @@ import ca.uhn.hl7v2.model.v24.segment.PID;
 import ca.uhn.hl7v2.model.v24.segment.PV1;
 import ca.uhn.hl7v2.parser.Parser;
 
+
 public class HapiCreateMessageSimpleExample {
 
 	private static HapiContext context;
-	private static String facilityNumberPrefix = "1234"; // some arbitrary prefix for the facility
-
+	
 	public static void main(String[] args) throws Exception {
 
+		OutputStream outputStream = null; 
+		try {
+			
+			//create the ADT A01 HL7 message
+			context = new DefaultHapiContext();
+			Parser parser = context.getPipeParser();
+			
+			System.out.println("Creating ADT A01 message...");
+			
+			ADT_A01 adtMessage = createAdtMessage(parser);
+			
+			//print out the message that we constructed
+			System.out.println("Message was constructed successfully..." + "\n");
+			System.out.println(adtMessage);
+			
+			//serialize the message to file if you want to have a look at it
+            //provide a path to the output file you want to serialize to below
+            //Remember that the file may not show special delimiter characters when using plain text editor
+			File file = new File("C:\\junk\\testFile.txt"); 
+			
+			// quick check to create the file before writing if it does not exist already
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			
+			System.out.println("Serializing message to file...");
+			outputStream = new FileOutputStream(file);
+			outputStream.write(parser.encode(adtMessage).getBytes());
+			outputStream.flush();
+			
+			System.out.printf("Message serialized to file '%s' successfully",file);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			if (outputStream != null) {
+				outputStream.close();
+			}
+		}
+	}
+
+	private static ADT_A01 createAdtMessage(Parser parser) throws HL7Exception, IOException, DataTypeException {
 		String currentDateTimeString = getCurrentTimeStamp();
+		
+		ADT_A01 adtMessage = new ADT_A01();
 
-		ADT_A01 adt = new ADT_A01();
-
-		adt.initQuickstart("ADT", "A01", "P");
+		adtMessage.initQuickstart("ADT", "A01", "P");
 
 		// Create and populate the MSH segment
-		MSH mshSegment = adt.getMSH();
+		MSH mshSegment = adtMessage.getMSH();
 		mshSegment.getFieldSeparator().setValue("|");
 		mshSegment.getEncodingCharacters().setValue("^~\\&");
 		mshSegment.getSendingApplication().getNamespaceID().setValue("Our System");
@@ -41,12 +90,12 @@ public class HapiCreateMessageSimpleExample {
 		mshSegment.getVersionID().getVersionID().setValue("2.4");
 
 		// Create and populate the EVN segment
-		EVN evn = adt.getEVN();
+		EVN evn = adtMessage.getEVN();
 		evn.getEventTypeCode().setValue("A01");
 		evn.getRecordedDateTime().getTimeOfAnEvent().setValue(currentDateTimeString);
 
 		// Create and populate the PID segment
-		PID pid = adt.getPID();
+		PID pid = adtMessage.getPID();
 		XPN patientName = pid.getPatientName(0);
 		patientName.getFamilyName().getSurname().setValue("Mouse");
 		patientName.getGivenName().setValue("Mickey");
@@ -58,7 +107,7 @@ public class HapiCreateMessageSimpleExample {
 		patientAddress.getCountry().setValue("USA");
 
 		// Create and populate the PV1 segment
-		PV1 pv1 = adt.getPV1();
+		PV1 pv1 = adtMessage.getPV1();
 		pv1.getPatientClass().setValue("O"); // to represent an 'Outpatient'
 		PL assignedPatientLocation = pv1.getAssignedPatientLocation();
 		assignedPatientLocation.getFacility().getNamespaceID().setValue("Some Treatment Facility Name");
@@ -71,14 +120,7 @@ public class HapiCreateMessageSimpleExample {
 		referringDoctor.getIdentifierTypeCode().setValue("456789");
 		pv1.getAdmitDateTime().getTimeOfAnEvent().setValue(getCurrentTimeStamp());
 
-		// use the HAPI context class to encode and print the message to the console
-		context = new DefaultHapiContext();
-		Parser parser = context.getPipeParser();
-		String encodedMessage = parser.encode(adt);
-
-		// print out the message that we constructed
-		System.out.println(encodedMessage);
-		
+		return adtMessage;
 	}
 
 	public static String getCurrentTimeStamp() {
@@ -86,6 +128,7 @@ public class HapiCreateMessageSimpleExample {
 	}
 
 	public static String getSequenceNumber() {
+		String facilityNumberPrefix = "1234"; // some arbitrary prefix for the facility
 		return facilityNumberPrefix.concat(getCurrentTimeStamp());
 	}
 
