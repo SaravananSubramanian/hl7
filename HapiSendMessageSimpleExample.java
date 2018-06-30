@@ -31,8 +31,7 @@ public class HapiSendMessageSimpleExample {
 
 		//create a HL7 message
 		context = new DefaultHapiContext();
-		Parser parser = context.getPipeParser();
-		ADT_A01 adtMessage = createAdtMessage(parser);
+		ADT_A01 adtMessage = createAdtMessage();
 
 		//create a new MLLP client over the specified port
 		Connection connection = context.newClient("localhost", PORT_NUMBER, false);
@@ -41,6 +40,7 @@ public class HapiSendMessageSimpleExample {
 		Initiator initiator = connection.getInitiator();
 		
 		//send the previously created HL7 message over the connection established
+		Parser parser = context.getPipeParser();
 		System.out.println("Sending message:" + "\n" + parser.encode(adtMessage));
 		Message response = initiator.sendAndReceive(adtMessage);
 		
@@ -50,7 +50,7 @@ public class HapiSendMessageSimpleExample {
 
 	}
 
-	private static ADT_A01 createAdtMessage(Parser parser) throws HL7Exception, IOException, DataTypeException {
+	private static ADT_A01 createAdtMessage() throws HL7Exception, IOException, DataTypeException {
 		String currentDateTimeString = getCurrentTimeStamp();
 		
 		ADT_A01 adt = new ADT_A01();

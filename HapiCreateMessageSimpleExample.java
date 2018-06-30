@@ -1,6 +1,7 @@
 package com.saravanansubramanian.hapihl7tutorial;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -28,49 +29,35 @@ public class HapiCreateMessageSimpleExample {
 	
 	public static void main(String[] args) throws Exception {
 
-		OutputStream outputStream = null; 
 		try {
 			
 			//create the ADT A01 HL7 message
 			context = new DefaultHapiContext();
-			Parser parser = context.getPipeParser();
 			
+			//create ADT A01 message  
 			System.out.println("Creating ADT A01 message...");
+			ADT_A01 adtMessage = createAdtMessage();
 			
-			ADT_A01 adtMessage = createAdtMessage(parser);
+			//create these parsers for file operations
+			Parser pipeParser = context.getPipeParser();
+			Parser xmlParser = context.getXMLParser();
 			
 			//print out the message that we constructed
 			System.out.println("Message was constructed successfully..." + "\n");
-			System.out.println(adtMessage);
+			System.out.println(pipeParser.encode(adtMessage));
 			
-			//serialize the message to file if you want to have a look at it
-            //provide a path to the output file you want to serialize to below
-            //Remember that the file may not show special delimiter characters when using plain text editor
-			File file = new File("testFile.txt"); 
+			//serialize the message to pipe delimited output file
+			writeMessageToPipeDelimitedFile(pipeParser, adtMessage, "testPipeDelimitedOutputFile.txt");
 			
-			// quick check to create the file before writing if it does not exist already
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-			
-			System.out.println("Serializing message to file...");
-			outputStream = new FileOutputStream(file);
-			outputStream.write(parser.encode(adtMessage).getBytes());
-			outputStream.flush();
-			
-			System.out.printf("Message serialized to file '%s' successfully",file);
+			//serialize the message to XML format output file
+			writeMessageToXmlFile(xmlParser, adtMessage,"testXmlOutputFile.xml");
 			
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		finally {
-			if (outputStream != null) {
-				outputStream.close();
-			}
+			e.printStackTrace(); 
 		}
 	}
 
-	private static ADT_A01 createAdtMessage(Parser parser) throws HL7Exception, IOException, DataTypeException {
+	private static ADT_A01 createAdtMessage() throws HL7Exception, IOException, DataTypeException {
 		String currentDateTimeString = getCurrentTimeStamp();
 		
 		ADT_A01 adtMessage = new ADT_A01();
@@ -121,6 +108,60 @@ public class HapiCreateMessageSimpleExample {
 		pv1.getAdmitDateTime().getTimeOfAnEvent().setValue(getCurrentTimeStamp());
 
 		return adtMessage;
+	}
+	
+	private static void writeMessageToPipeDelimitedFile(Parser pipeParser, ADT_A01 adtMessage, String outputFilename)
+			throws IOException, FileNotFoundException, HL7Exception {
+		OutputStream outputStream = null; 
+		try {
+			
+			//Remember that the file may not show special delimiter characters when using plain text editor
+			File file = new File(outputFilename); 
+			
+			// quick check to create the file before writing if it does not exist already
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			
+			System.out.println("Serializing message to pipe delimited file...");
+			outputStream = new FileOutputStream(file);
+			outputStream.write(pipeParser.encode(adtMessage).getBytes());
+			outputStream.flush();
+			
+			System.out.printf("Message serialized to pipe delimited file '%s' successfully",file);
+			System.out.println("\n");
+		}	
+		finally {
+			if (outputStream != null) {
+				outputStream.close();
+			}
+		}
+	}
+	
+	private static void writeMessageToXmlFile(Parser xmlParser, ADT_A01 adtMessage, String outputFilename)
+			throws IOException, FileNotFoundException, HL7Exception {
+		OutputStream outputStream = null; 
+		try {
+			
+			File file = new File(outputFilename); 
+			
+			// quick check to create the file before writing if it does not exist already
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			
+			System.out.println("Serializing message to XML file...");
+			outputStream = new FileOutputStream(file);
+			outputStream.write(xmlParser.encode(adtMessage).getBytes());
+			outputStream.flush();
+			
+			System.out.printf("Message serialized to xml format file '%s' successfully",file);
+		}	
+		finally {
+			if (outputStream != null) {
+				outputStream.close();
+			}
+		}
 	}
 
 	public static String getCurrentTimeStamp() {
