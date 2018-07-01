@@ -14,7 +14,8 @@ public class AdtMessageFactory {
 			return new OurAdtA01MessageBuilder().Build();
 		}
 		
-		throw new RuntimeException(messageType + " is not supported yet. Extend this if you need to");
+		//if other types of ADT messages are needed, then implement your builders here
+		throw new RuntimeException(String.format("%s message type is not supported yet. Extend this if you need to", messageType));
 		
 	}
 }
