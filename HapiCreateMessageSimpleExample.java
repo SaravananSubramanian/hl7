@@ -31,7 +31,7 @@ public class HapiCreateMessageSimpleExample {
 
 		try {
 			
-			//create the ADT A01 HL7 message
+			//In HAPI, almost all things revolve around a context object
 			context = new DefaultHapiContext();
 			
 			//create ADT A01 message  
@@ -62,38 +62,25 @@ public class HapiCreateMessageSimpleExample {
 		
 		ADT_A01 adtMessage = new ADT_A01();
 
+		//this helps initialize message info
 		adtMessage.initQuickstart("ADT", "A01", "P");
 
 		// Create and populate the MSH segment
-		MSH mshSegment = adtMessage.getMSH();
-		mshSegment.getFieldSeparator().setValue("|");
-		mshSegment.getEncodingCharacters().setValue("^~\\&");
-		mshSegment.getSendingApplication().getNamespaceID().setValue("Our System");
-		mshSegment.getSendingFacility().getNamespaceID().setValue("Our Facility");
-		mshSegment.getReceivingApplication().getNamespaceID().setValue("Their Remote System");
-		mshSegment.getReceivingFacility().getNamespaceID().setValue("Their Remote Facility");
-		mshSegment.getDateTimeOfMessage().getTimeOfAnEvent().setValue(currentDateTimeString);
-		mshSegment.getMessageControlID().setValue(getSequenceNumber());
-		mshSegment.getVersionID().getVersionID().setValue("2.4");
+		createMshSegment(adtMessage, currentDateTimeString);
 
 		// Create and populate the EVN segment
-		EVN evn = adtMessage.getEVN();
-		evn.getEventTypeCode().setValue("A01");
-		evn.getRecordedDateTime().getTimeOfAnEvent().setValue(currentDateTimeString);
+		createEvnSegment(adtMessage, currentDateTimeString);
 
 		// Create and populate the PID segment
-		PID pid = adtMessage.getPID();
-		XPN patientName = pid.getPatientName(0);
-		patientName.getFamilyName().getSurname().setValue("Mouse");
-		patientName.getGivenName().setValue("Mickey");
-		pid.getPatientIdentifierList(0).getID().setValue("378785433211");
-		XAD patientAddress = pid.getPatientAddress(0);
-		patientAddress.getStreetAddress().getStreetOrMailingAddress().setValue("123 Main Street");
-		patientAddress.getCity().setValue("Lake Buena Vista");
-		patientAddress.getStateOrProvince().setValue("FL");
-		patientAddress.getCountry().setValue("USA");
+		createPidSegment(adtMessage);
 
 		// Create and populate the PV1 segment
+		createPv1Segment(adtMessage);
+
+		return adtMessage;
+	}
+
+	private static void createPv1Segment(ADT_A01 adtMessage) throws DataTypeException {
 		PV1 pv1 = adtMessage.getPV1();
 		pv1.getPatientClass().setValue("O"); // to represent an 'Outpatient'
 		PL assignedPatientLocation = pv1.getAssignedPatientLocation();
@@ -106,8 +93,38 @@ public class HapiCreateMessageSimpleExample {
 		referringDoctor.getGivenName().setValue("Jack");
 		referringDoctor.getIdentifierTypeCode().setValue("456789");
 		pv1.getAdmitDateTime().getTimeOfAnEvent().setValue(getCurrentTimeStamp());
+	}
 
-		return adtMessage;
+	private static void createPidSegment(ADT_A01 adtMessage) throws DataTypeException {
+		PID pid = adtMessage.getPID();
+		XPN patientName = pid.getPatientName(0);
+		patientName.getFamilyName().getSurname().setValue("Mouse");
+		patientName.getGivenName().setValue("Mickey");
+		pid.getPatientIdentifierList(0).getID().setValue("378785433211");
+		XAD patientAddress = pid.getPatientAddress(0);
+		patientAddress.getStreetAddress().getStreetOrMailingAddress().setValue("123 Main Street");
+		patientAddress.getCity().setValue("Lake Buena Vista");
+		patientAddress.getStateOrProvince().setValue("FL");
+		patientAddress.getCountry().setValue("USA");
+	}
+
+	private static void createEvnSegment(ADT_A01 adtMessage, String currentDateTimeString) throws DataTypeException {
+		EVN evn = adtMessage.getEVN();
+		evn.getEventTypeCode().setValue("A01");
+		evn.getRecordedDateTime().getTimeOfAnEvent().setValue(currentDateTimeString);
+	}
+
+	private static void createMshSegment(ADT_A01 adtMessage, String currentDateTimeString) throws DataTypeException {
+		MSH mshSegment = adtMessage.getMSH();
+		mshSegment.getFieldSeparator().setValue("|");
+		mshSegment.getEncodingCharacters().setValue("^~\\&");
+		mshSegment.getSendingApplication().getNamespaceID().setValue("Our System");
+		mshSegment.getSendingFacility().getNamespaceID().setValue("Our Facility");
+		mshSegment.getReceivingApplication().getNamespaceID().setValue("Their Remote System");
+		mshSegment.getReceivingFacility().getNamespaceID().setValue("Their Remote Facility");
+		mshSegment.getDateTimeOfMessage().getTimeOfAnEvent().setValue(currentDateTimeString);
+		mshSegment.getMessageControlID().setValue(getSequenceNumber());
+		mshSegment.getVersionID().getVersionID().setValue("2.4");
 	}
 	
 	private static void writeMessageToFile(Parser parser, ADT_A01 adtMessage, String outputFilename)
