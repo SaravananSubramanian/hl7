@@ -47,10 +47,10 @@ public class HapiCreateMessageSimpleExample {
 			System.out.println(pipeParser.encode(adtMessage));
 			
 			//serialize the message to pipe delimited output file
-			writeMessageToPipeDelimitedFile(pipeParser, adtMessage, "testPipeDelimitedOutputFile.txt");
+			writeMessageToFile(pipeParser, adtMessage, "testPipeDelimitedOutputFile.txt");
 			
 			//serialize the message to XML format output file
-			writeMessageToXmlFile(xmlParser, adtMessage,"testXmlOutputFile.xml");
+			writeMessageToFile(xmlParser, adtMessage,"testXmlOutputFile.xml");
 			
 		} catch (Exception e) {
 			e.printStackTrace(); 
@@ -110,7 +110,7 @@ public class HapiCreateMessageSimpleExample {
 		return adtMessage;
 	}
 	
-	private static void writeMessageToPipeDelimitedFile(Parser pipeParser, ADT_A01 adtMessage, String outputFilename)
+	private static void writeMessageToFile(Parser parser, ADT_A01 adtMessage, String outputFilename)
 			throws IOException, FileNotFoundException, HL7Exception {
 		OutputStream outputStream = null; 
 		try {
@@ -123,12 +123,12 @@ public class HapiCreateMessageSimpleExample {
 				file.createNewFile();
 			}
 			
-			System.out.println("Serializing message to pipe delimited file...");
+			System.out.println("Serializing message to file...");
 			outputStream = new FileOutputStream(file);
-			outputStream.write(pipeParser.encode(adtMessage).getBytes());
+			outputStream.write(parser.encode(adtMessage).getBytes());
 			outputStream.flush();
 			
-			System.out.printf("Message serialized to pipe delimited file '%s' successfully",file);
+			System.out.printf("Message serialized to file '%s' successfully",file);
 			System.out.println("\n");
 		}	
 		finally {
@@ -138,32 +138,6 @@ public class HapiCreateMessageSimpleExample {
 		}
 	}
 	
-	private static void writeMessageToXmlFile(Parser xmlParser, ADT_A01 adtMessage, String outputFilename)
-			throws IOException, FileNotFoundException, HL7Exception {
-		OutputStream outputStream = null; 
-		try {
-			
-			File file = new File(outputFilename); 
-			
-			// quick check to create the file before writing if it does not exist already
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-			
-			System.out.println("Serializing message to XML file...");
-			outputStream = new FileOutputStream(file);
-			outputStream.write(xmlParser.encode(adtMessage).getBytes());
-			outputStream.flush();
-			
-			System.out.printf("Message serialized to xml format file '%s' successfully",file);
-		}	
-		finally {
-			if (outputStream != null) {
-				outputStream.close();
-			}
-		}
-	}
-
 	public static String getCurrentTimeStamp() {
 		return new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 	}
