@@ -1,4 +1,4 @@
-package com.saravanansubramanian.hapihl7tutorial;
+package com.saravanansubramanian.hapihl7tutorial.send;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -20,7 +20,7 @@ public class HapiSendMultipleMessagesExample {
 
 		try {
 
-			FileReader reader = new FileReader("c:\\junk\\FileWithLotsOfHl7Messages.txt");
+			FileReader reader = new FileReader("C:\\MyWebsiteWork\\other\\My HL7 Blog Article Work\\FileWithLotsOfHl7Messages.txt");
 			
 			//create an iterator to read through the HL7 messages in the file
 			Hl7InputStreamMessageIterator messageIterator = new Hl7InputStreamMessageIterator(reader);
@@ -39,7 +39,7 @@ public class HapiSendMultipleMessagesExample {
 					Message messageResponse = connectionWithServer.getInitiator().sendAndReceive(nextMessage);
 					System.out.println("Response received from server was " + messageResponse.encode());
 				} catch (IOException e) {
-					e.printStackTrace();
+					e.printStackTrace(); //in real-life, you need to handle these exceptions 
 					connectionWithServer.close();
 					connectionWithServer = null;
 					

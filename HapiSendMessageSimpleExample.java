@@ -1,4 +1,6 @@
-package com.saravanansubramanian.hapihl7tutorial;
+package com.saravanansubramanian.hapihl7tutorial.send;
+
+import com.saravanansubramanian.hapihl7tutorial.create.AdtMessageFactory;
 
 import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HapiContext;
