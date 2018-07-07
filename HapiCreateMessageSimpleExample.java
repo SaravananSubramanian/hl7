@@ -1,10 +1,11 @@
-package com.saravanansubramanian.hapihl7tutorial;
+package com.saravanansubramanian.hapihl7tutorial.create;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+
 import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
@@ -38,6 +39,10 @@ public class HapiCreateMessageSimpleExample {
 
 			// serialize the message to XML format output file
 			writeMessageToFile(xmlParser, adtMessage, "testXmlOutputFile.xml");
+			
+			//you can print out the message structure using a convenient helper method on the message class
+			System.out.println("Printing message structure to console...");
+			System.out.println(adtMessage.printStructure());
 
 		} catch (Exception e) {
 			e.printStackTrace();

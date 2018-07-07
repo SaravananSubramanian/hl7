@@ -1,4 +1,4 @@
-package com.saravanansubramanian.hapihl7tutorial;
+package com.saravanansubramanian.hapihl7tutorial.create;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

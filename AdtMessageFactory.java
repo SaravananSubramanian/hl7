@@ -1,6 +1,7 @@
-package com.saravanansubramanian.hapihl7tutorial;
+package com.saravanansubramanian.hapihl7tutorial.create;
 
 import java.io.IOException;
+
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.v24.message.ADT_A01;
 
