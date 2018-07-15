@@ -18,15 +18,16 @@ public class ZPV extends AbstractSegment {
 
      private void init(ModelClassFactory factory) {
         try {
-        	addFieldToSegment("Custom Location");
-        	addFieldToSegment("Custom Description");
+        	//initialize the segment with the two custom fields we have need to include
+        	addFieldToSegment("Custom Location",true,0,100);
+        	addFieldToSegment("Custom Description",true,0,100);
         } catch (HL7Exception e) {
             log.error("There was an error creating the custom segment ZPV.", e);
         }
      }
 
-	private void addFieldToSegment(String fieldName) throws HL7Exception {
-		add(ST.class, true, 0, 100, new Object[]{ getMessage() }, fieldName);
+	private void addFieldToSegment(String fieldName, boolean isFieldMandatory, int numberOfFieldRepetitions, int fieldLength) throws HL7Exception {
+		add(ST.class, isFieldMandatory, numberOfFieldRepetitions, fieldLength, new Object[]{ getMessage() }, fieldName);
 	}
 
     public ST[] getCustomNotes() throws HL7Exception {

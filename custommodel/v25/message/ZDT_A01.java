@@ -11,8 +11,8 @@ public class ZDT_A01 extends ADT_A01 {
 	
 	// For this example, let's imagine an application that has a custom
     // patient visit segment called ZPV after the PID segment in an ADT^A01 message.
-	
-    // We will define the ZPI segment to have two custom fields:
+    
+    // We will define the ZPV segment to have two custom fields:
     //   1. A non-repeating field (with data type ST) called "Custom Notes"
     //   2 - a non repeating field (also with data type ST) called "Custom Description"
 
