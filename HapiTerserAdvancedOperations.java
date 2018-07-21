@@ -34,7 +34,12 @@ public class HapiTerserAdvancedOperations {
 			terserExpression = "/.OBSERVATION(1)/NTE(1)-3";
 			dataRetrieved = terserDemonstrator.getData(terserExpression);
 			System.out.printf("Observation group's 2nd NTE segment's second field using expression '%s' was: '%s' \n\n",terserExpression, dataRetrieved);
+			
+			terserExpression = "/.RESPONSE/ORDER_OBSERVATION/OBSERVATION(0)/OBX(0)-16-2";
+			dataRetrieved = terserDemonstrator.getData(terserExpression);
+			System.out.printf("Observation group's First OBX segment's 16th Field and its Second component using expression '%s' was: '%s' \n\n",terserExpression, dataRetrieved);
 	        
+			//let us now try a set operation using the terser
 			terserExpression = "/.OBSERVATION(1)/NTE-3";
 			terserDemonstrator.setData(terserExpression,"This is our override value using the setter");
 			System.out.printf("Setting the data for second repetition of the NTE segment and its third field\n",terserExpression, dataRetrieved);
