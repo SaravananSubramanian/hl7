@@ -24,7 +24,7 @@ public class HapiCreateMessageSimpleExample {
 			// create the HL7 message
 			// this AdtMessageFactory class is not from HAPI but my own wrapper
 			System.out.println("Creating ADT A01 message...");
-			ADT_A01 adtMessage = AdtMessageFactory.createMessage("A01");
+			ADT_A01 adtMessage = (ADT_A01) AdtMessageFactory.createMessage("A01");
 
 			// create these parsers for file operations
 			Parser pipeParser = context.getPipeParser();
