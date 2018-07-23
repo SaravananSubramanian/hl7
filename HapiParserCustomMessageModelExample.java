@@ -27,14 +27,14 @@ public class HapiParserCustomMessageModelExample {
                 + "ZPV|Some Custom Notes|Additional custom description of the visit goes here";
 		
         //parse this message information into our ZDT custom message
-        System.out.println("Attempting to parse custom message into message object...");
+        System.out.println("Attempting to parse message string into HL7 message object...");
         ZDT_A01 zdtA01Message = (ZDT_A01) parser.parse(messageText);
-        System.out.println("ZDT^A01 message was parsed successfully");
+        System.out.println("ZDT^A01 message was parsed successfully" + "\n");
         
         //extract the ZPV Z-segment from this parsed message
         System.out.println("Retrieving the Z-segment from this message...");
         ZPV zpvSegment = zdtA01Message.getZPVSegment();
-        System.out.println("Z-segment ZPV was retrieved successfully...");
+        System.out.println("Z-segment ZPV was retrieved successfully..." + "\n");
 
         //print the extracted custom fields from the Z-segment below
         System.out.println("Custom Notes retrieved from ZPV segment was -> " + zpvSegment.getCustomNotes()[0].encode()); // Print custom notes
