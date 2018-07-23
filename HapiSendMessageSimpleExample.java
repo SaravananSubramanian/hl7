@@ -24,7 +24,7 @@ public class HapiSendMessageSimpleExample {
 			// create the HL7 message
 			// this AdtMessageFactory class is not from HAPI but my own wrapper
 			// check my GitHub page or see my earlier article for reference
-			ADT_A01 adtMessage = AdtMessageFactory.createMessage("A01");
+			ADT_A01 adtMessage = (ADT_A01) AdtMessageFactory.createMessage("A01");
 
 			// create a new MLLP client over the specified port
 			Connection connection = context.newClient("localhost", PORT_NUMBER, false);
