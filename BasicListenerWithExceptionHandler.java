@@ -47,7 +47,7 @@ public class BasicListenerWithExceptionHandler {
 			
 			ourHl7Server.startAndWait();
 
-			ADT_A01 adtMessage = AdtMessageFactory.createMessage("A01");
+			ADT_A01 adtMessage = (ADT_A01) AdtMessageFactory.createMessage("A01");
 			
 			Parser ourPipeParser = context.getPipeParser();
 			Message messageResponse = initiator.sendAndReceive(adtMessage);

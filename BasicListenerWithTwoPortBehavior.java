@@ -40,7 +40,7 @@ public class BasicListenerWithTwoPortBehavior {
 			Connection conn = new ActiveConnection(ourPipeParser, protocol, inboundSocket, outboundSocket);
 			conn.activate();
 			
-			ADT_A01 adtMessage = AdtMessageFactory.createMessage("A01");
+			ADT_A01 adtMessage = (ADT_A01) AdtMessageFactory.createMessage("A01");
 			
 			System.out.println("Sending message to listener through port:" + outboundPort + "\n");
 			Message messageResponse = conn.getInitiator().sendAndReceive(adtMessage);
