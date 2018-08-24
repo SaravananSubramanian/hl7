@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Step 1 - Simple Echo TcpIp Client and Server", "Step 1 - Simple Echo TcpIp Client and Server", "{8EDC9965-C4E1-4080-945C-6065F09112C5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Step 2 - MultiThreaded TcpIp Server", "Step 2 - MultiThreaded TcpIp Server", "{1A1C64BF-00C1-4BE5-95F8-6FA573A16435}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Step 3 - MLLP Client and Server", "Step 3 - MLLP Client and Server", "{7270FFCA-9072-485B-9BD2-0B40B2ACA858}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleTcpEchoClient", "SimpleTcpEchoClient\SimpleTcpEchoClient.csproj", "{F6669F4E-43F2-4DC2-84E2-E152161E4CF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleTcpEchoServer", "SimpleTcpEchoServer\SimpleTcpEchoServer.csproj", "{9A634456-DF81-4948-BC07-DD26AB858666}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiThreadedTcpEchoServer", "MultiThreadedTcpEchoServer\MultiThreadedTcpEchoServer.csproj", "{A5C5CFAA-C76F-4652-80F5-C7B2F2D00691}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMllpHl7Client", "SimpleMllpHl7Client\SimpleMllpHl7Client.csproj", "{9BD1AE4A-136D-4813-8276-9079AF7E6C2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMultiThreadedMllpHl7Server", "SimpleMultiThreadedMllpHl7Server\SimpleMultiThreadedMllpHl7Server.csproj", "{D0980258-6125-44B2-9574-24AD17B37B08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMllpHl7ClientAdvanced", "SimpleMllpHl7ClientAdvanced\SimpleMllpHl7ClientAdvanced.csproj", "{304307CD-2BB9-4349-A799-0A34BA5A7E81}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6669F4E-43F2-4DC2-84E2-E152161E4CF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6669F4E-43F2-4DC2-84E2-E152161E4CF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6669F4E-43F2-4DC2-84E2-E152161E4CF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6669F4E-43F2-4DC2-84E2-E152161E4CF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A634456-DF81-4948-BC07-DD26AB858666}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A634456-DF81-4948-BC07-DD26AB858666}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A634456-DF81-4948-BC07-DD26AB858666}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A634456-DF81-4948-BC07-DD26AB858666}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5C5CFAA-C76F-4652-80F5-C7B2F2D00691}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5C5CFAA-C76F-4652-80F5-C7B2F2D00691}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5C5CFAA-C76F-4652-80F5-C7B2F2D00691}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5C5CFAA-C76F-4652-80F5-C7B2F2D00691}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BD1AE4A-136D-4813-8276-9079AF7E6C2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BD1AE4A-136D-4813-8276-9079AF7E6C2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BD1AE4A-136D-4813-8276-9079AF7E6C2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BD1AE4A-136D-4813-8276-9079AF7E6C2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0980258-6125-44B2-9574-24AD17B37B08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0980258-6125-44B2-9574-24AD17B37B08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0980258-6125-44B2-9574-24AD17B37B08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0980258-6125-44B2-9574-24AD17B37B08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{304307CD-2BB9-4349-A799-0A34BA5A7E81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{304307CD-2BB9-4349-A799-0A34BA5A7E81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{304307CD-2BB9-4349-A799-0A34BA5A7E81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{304307CD-2BB9-4349-A799-0A34BA5A7E81}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F6669F4E-43F2-4DC2-84E2-E152161E4CF9} = {8EDC9965-C4E1-4080-945C-6065F09112C5}
+		{9A634456-DF81-4948-BC07-DD26AB858666} = {8EDC9965-C4E1-4080-945C-6065F09112C5}
+		{A5C5CFAA-C76F-4652-80F5-C7B2F2D00691} = {1A1C64BF-00C1-4BE5-95F8-6FA573A16435}
+		{9BD1AE4A-136D-4813-8276-9079AF7E6C2E} = {7270FFCA-9072-485B-9BD2-0B40B2ACA858}
+		{D0980258-6125-44B2-9574-24AD17B37B08} = {7270FFCA-9072-485B-9BD2-0B40B2ACA858}
+		{304307CD-2BB9-4349-A799-0A34BA5A7E81} = {7270FFCA-9072-485B-9BD2-0B40B2ACA858}
+	EndGlobalSection
+EndGlobal
