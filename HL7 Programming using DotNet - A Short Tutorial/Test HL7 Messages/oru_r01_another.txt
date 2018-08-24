@@ -1,0 +1,13 @@
+MSH|^~\&|SendingApp|SendingFac|ReceivingApp|ReceivingFac|20120226102502||ORU^R01|Q161522306T164850327|P|2.3
+PID|1||000168674|000168674|GUNN^BEBE||19821201|F||||||||M|||890-12-3456|||N||||||||N
+PV1|1|I||EL|||00976^PHYSICIAN^DAVID^G|976^PHYSICIAN^DAVID^G|01055^PHYSICIAN^RUTH^K~02807^PHYSICIAN^ERIC^LEE~07019^GI^ASSOCIATES~01255^PHYSICIAN^ADAM^I~02084^PHYSICIAN^SAYED~01116^PHYSICIAN^NURUDEEN^A~01434^PHYSICIAN^DONNA^K~02991^PHYSICIAN^NICOLE|MED||||7|||00976^PHYSICIAN^DAVID^G||^^^Chart ID^Vis|||||||||||||||||||||||||20120127204900
+ORC|RE|||||||||||00976^PHYSICIAN^DAVID^G
+OBR|1|88855701^STDOM|88855701|4083023^PT|||20120226095400|||||||20120226101300|Blood|01255||||000002012057000145||20120226102500||LA|F||1^^^20120226040000^^R~^^^^^R|||||||||20120226040000
+OBX|1|NM|PT Patient^PT||22.5|second(s)|11.7-14.9|H|||F|||20120226102500||1^SYSTEM^SYSTEM
+OBX|2|NM|PT (INR)^INR||1.94||||||F|||20120226102500||1^SYSTEM^SYSTEM
+NTE|1||The optimal INR therapeutic range for stable patients on oral anticoagulants is 2.0 - 3.0.  With mechanical heart valves,
+NTE|2||the range is 2.5 - 3.5.
+NTE|3
+NTE|4||Studies published in NEJM show that patients treated long-term with low intensity warfarin therapy for prevention of recurrent
+NTE|5||venous thromboembolism (with a target INR of 1.5 - 2.0) had a superior outcome.  These results were seen in patients after a median
+NTE|6||6 months of full dose anti-coagulation.
