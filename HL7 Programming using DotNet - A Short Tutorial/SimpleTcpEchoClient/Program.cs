@@ -25,7 +25,8 @@ namespace SimpleTcpEchoClient
                 networkStream = ourTcpClient.GetStream();
 
                 //use UTF-8 and either 8-bit encoding due to MLLP-related recommendations
-                var byteBuffer = Encoding.UTF8.GetBytes("Hello from Client");
+                var messageToTransmit = "Hello from Client";
+                var byteBuffer = Encoding.UTF8.GetBytes(messageToTransmit);
 
                 //send a message through this connection using the IO stream
                 networkStream.Write(byteBuffer, 0, byteBuffer.Length);
@@ -41,12 +42,16 @@ namespace SimpleTcpEchoClient
                     bytesReceivedFromServer = networkStream.Read(byteBuffer, 0, byteBuffer.Length);
                     if (bytesReceivedFromServer == 0)
                     {
-                        break;
+                        //exit the reading loop since there is no more data
+                        break; 
                     }
                 }
                 var receivedMessage = Encoding.UTF8.GetString(byteBuffer);
 
                 Console.WriteLine("Received message from server: {0}", receivedMessage);
+        
+                Console.WriteLine("Press any key to exit program...");
+                Console.ReadLine();
             }
             catch (Exception ex)
             {
