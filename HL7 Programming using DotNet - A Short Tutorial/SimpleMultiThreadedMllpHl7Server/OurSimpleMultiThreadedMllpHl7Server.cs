@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 namespace SimpleMultiThreadedMllpHl7Server
 {
@@ -14,33 +15,47 @@ namespace SimpleMultiThreadedMllpHl7Server
         private static int MESSAGE_CONTROL_ID_LOCATION = 9;
         private static char FIELD_DELIMITER = '|';
 
-        public void StartServer(int portToListenOn)
+        public void StartOurTcpServer(int portNumberToListenOn)
         {
-            _tcpListener = new TcpListener(IPAddress.Any, portToListenOn);
+            try
+            {
+                _tcpListener = new TcpListener(IPAddress.Parse("127.0.0.1"), 1080);
 
-            //start the TCP listener that we have instantiated
-            _tcpListener.Start();
+                //start the TCP listener that we have instantiated
+                _tcpListener.Start();
 
-            Console.WriteLine("Started server successfully...");
+                Console.WriteLine("Started server successfully...");
 
-            //start processing client connections to this server
-            StartProcessingClientConnections();
+                while (true)
+                {
+                    //wait for client connections to come in
+                    var incomingTcpClientConnection = _tcpListener.AcceptTcpClient();
+
+                    Console.WriteLine("Accepted incoming client connection...");
+
+                    //create a new thread to process this client connection
+                    var clientProcessingThread = new Thread(ProcessClientConnection);
+
+                    //start processing client connections to this server
+                    clientProcessingThread.Start(incomingTcpClientConnection);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //print any exceptions during the communications to the console
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                //stop the TCP listener before you dispose of it
+                _tcpListener?.Stop();
+            }
         }
 
-        private void StartProcessingClientConnections()
+        private void ProcessClientConnection(object argumentForThreadProcessing)
         {
-            //connections are handled through an async callback delegate
-            //Read the .NET documentation on this and more powerful methods available for use
-            _tcpListener.BeginAcceptTcpClient(HandleIncomingConnections, _tcpListener);
-        }
-
-        private void HandleIncomingConnections(IAsyncResult result)
-        {
-            //call this recursively until the server is shutdown 
-            //all connections are handled concurrently as as result of the async call back mechanism
-            StartProcessingClientConnections();
-            var tcpClientConnection = _tcpListener.EndAcceptTcpClient(result);
-
+            var tcpClientConnection = (TcpClient)argumentForThreadProcessing;
             Console.WriteLine("A client connection was initiated from " + tcpClientConnection.Client.RemoteEndPoint);
 
             var receivedByteBuffer = new byte[200];
@@ -87,7 +102,7 @@ namespace SimpleMultiThreadedMllpHl7Server
 
                 }
 
-                
+
             }
             catch (Exception e)
             {
@@ -128,7 +143,7 @@ namespace SimpleMultiThreadedMllpHl7Server
 
         private string GetMessageControlID(string incomingHl7Message)
         {
-            
+
             var fieldCount = 0;
             //parse the message into segments using the end of segment separter
             var hl7MessageSegments = incomingHl7Message.Split(CARRIAGE_RETURN);

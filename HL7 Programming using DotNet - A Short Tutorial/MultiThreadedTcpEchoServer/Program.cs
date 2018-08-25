@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace MultiThreadedTcpEchoServer
 {
@@ -9,7 +10,8 @@ namespace MultiThreadedTcpEchoServer
         static void Main(string[] args)
         {
             var main = new OurSimpleMultiThreadedTcpServer();
-            main.StartOurTcpServer();  //starting the server
+            //starting the server
+            main.StartOurTcpServer(1080);  
 
             Console.WriteLine("Press any key to exit program...");
             Console.ReadLine();
@@ -18,35 +20,51 @@ namespace MultiThreadedTcpEchoServer
 
     class OurSimpleMultiThreadedTcpServer
     {
-        private readonly TcpListener _tcpListener = new TcpListener(IPAddress.Any, 1080);
+        private TcpListener _tcpListener;
 
-        public void StartOurTcpServer()
+        public void StartOurTcpServer(int portNumberToListenOn)
         {
-            //start the TCP listener that we have instantiated
-            _tcpListener.Start();
+            try
+            {
+                _tcpListener = new TcpListener(IPAddress.Parse("127.0.0.1"), 1080);
 
-            Console.WriteLine("Started server successfully...");
+                //start the TCP listener that we have instantiated
+                _tcpListener.Start();
 
-            //start processing client connections to this server
-            StartProcessingClientConnections();  
+                Console.WriteLine("Started server successfully...");
+
+                while (true)
+                {
+                    //wait for client connections to come in
+                    var incomingTcpClientConnection = _tcpListener.AcceptTcpClient();
+
+                    Console.WriteLine("Accepted incoming client connection...");
+
+                    //create a new thread to process this client connection
+                    var clientProcessingThread = new Thread(ProcessClientConnection);
+
+                    //start processing client connections to this server
+                    clientProcessingThread.Start(incomingTcpClientConnection);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                //print any exceptions during the communications to the console
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                //stop the TCP listener before you dispose of it
+                _tcpListener?.Stop();
+            }
         }
 
-        private void StartProcessingClientConnections()
+        private void ProcessClientConnection(object argumentForThreadProcessing)
         {
-            //connections are handled through an async callback delegate
-            //Read the .NET documentation on this and more powerful methods available for use
-            _tcpListener.BeginAcceptTcpClient(HandleIncomingConnections, _tcpListener);  
-        }
-
-        private void HandleIncomingConnections(IAsyncResult result)  
-        {
-            //call this recursively until the server is shutdown 
-            //all connections are handled concurrently as as result of the async call back mechanism
-            StartProcessingClientConnections();  
-            var client = _tcpListener.EndAcceptTcpClient(result);  
-
+            var tcpClient = (TcpClient) argumentForThreadProcessing;
             var receivedByteBuffer = new byte[200];
-            var netStream = client.GetStream();
+            var netStream = tcpClient.GetStream();
 
             try
             {
@@ -61,10 +79,10 @@ namespace MultiThreadedTcpEchoServer
                     {
                         //echo the received data back to the client 
                         netStream.Write(receivedByteBuffer, 0, bytesReceived);
+                        netStream.Flush();
                     }
 
                     totalBytesReceivedFromClient += bytesReceived;
-
                 }
 
                 Console.WriteLine("Echoed {0} bytes back to the client.", totalBytesReceivedFromClient);
@@ -72,6 +90,7 @@ namespace MultiThreadedTcpEchoServer
             catch (Exception e)
             {
                 //print any exceptions during the communications to the console
+                //in real-life, always do something about exceptions
                 Console.WriteLine(e.Message);
             }
             finally
@@ -79,7 +98,7 @@ namespace MultiThreadedTcpEchoServer
                 // Close the stream and the connection with the client
                 netStream.Close();
                 netStream.Dispose();
-                client.Close();
+                tcpClient.Close();
             }
 
         }

@@ -52,6 +52,8 @@ namespace SimpleMllpHl7Client
                 networkStream.Write(byteBuffer, 0, byteBuffer.Length);
 
                 Console.WriteLine("Data was sent data to server successfully....");
+
+                Console.WriteLine("This client is not technically complete as it does not receive MLLP message acknowledgement back....");
             }
             catch (Exception ex)
             {

@@ -7,7 +7,7 @@ namespace SimpleMultiThreadedMllpHl7Server
         static void Main(string[] args)
         {
             var main = new OurSimpleMultiThreadedMllpHl7Server();
-            main.StartServer(1080); 
+            main.StartOurTcpServer(1080); 
 
             Console.WriteLine("Press any key to exit program...");
             Console.ReadLine();
