@@ -54,6 +54,9 @@ namespace SimpleMllpHl7Client
                 Console.WriteLine("Data was sent data to server successfully....");
 
                 Console.WriteLine("This client is not technically complete as it does not receive MLLP message acknowledgement back....");
+
+                Console.WriteLine("Press any key to exit program...");
+                Console.ReadLine();
             }
             catch (Exception ex)
             {

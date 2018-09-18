@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SimpleMllpHl7Client")]
+[assembly: AssemblyTitle("NHapiCreateMessageSimpleExample")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SimpleMllpHl7Client")]
+[assembly: AssemblyProduct("NHapiCreateMessageSimpleExample")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("9bd1ae4a-136d-4813-8276-9079af7e6c2e")]
+[assembly: Guid("3506ad7c-bd6c-4da9-ae6e-3abca0dad639")]
 
 // Version information for an assembly consists of the following four values:
 //
