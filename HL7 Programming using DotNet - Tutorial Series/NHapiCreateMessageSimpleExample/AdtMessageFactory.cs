@@ -1,11 +1,11 @@
 ﻿using System;
-using NHapi.Model.V23.Message;
+using NHapi.Base.Model;
 
 namespace NHapiCreateMessageSimpleExample
 {
     public class AdtMessageFactory
     {
-        public static ADT_A01 CreateMessage(string messageType)
+        public static IMessage CreateMessage(string messageType)
         {
             //This patterns enables you to build other message types 
             if (messageType.Equals("A01"))
