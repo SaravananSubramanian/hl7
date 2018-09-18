@@ -38,7 +38,7 @@ namespace NHapiCreateMessageSimpleExample
 
         private static void WriteMessageFile(ParserBase parser, IMessage hl7Message, string outputDirectory, string outputFileName)
         {
-            if (Directory.Exists(outputDirectory))
+            if (!Directory.Exists(outputDirectory))
                 Directory.CreateDirectory(outputDirectory);
 
             var fileName = Path.Combine(outputDirectory, outputFileName);
