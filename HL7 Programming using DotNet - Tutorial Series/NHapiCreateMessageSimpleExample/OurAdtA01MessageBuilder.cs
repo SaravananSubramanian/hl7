@@ -39,6 +39,7 @@ namespace NHapiCreateMessageSimpleExample
             mshSegment.MessageType.MessageType.Value = "ADT";
             mshSegment.MessageType.TriggerEvent.Value = "A01";
             mshSegment.VersionID.Value = "2.3";
+            mshSegment.ProcessingID.ProcessingID.Value = "P";
         }
 
         private void CreateEvnSegment(string currentDateTimeString) 
