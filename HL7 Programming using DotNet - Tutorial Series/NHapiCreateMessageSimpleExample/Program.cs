@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using NHapi.Base.Model;
 using NHapi.Base.Parser;
@@ -13,7 +14,7 @@ namespace NHapiCreateMessageSimpleExample
             {
                 // create the HL7 message
                 // this AdtMessageFactory class is not from NHAPI but my own wrapper
-                Console.WriteLine("Creating ADT A01 message...");
+                LogToDebugConsole("Creating ADT A01 message...");
                 var adtMessage = AdtMessageFactory.CreateMessage("A01");
 
                 // create these parsers for the file encoding operations
@@ -21,7 +22,7 @@ namespace NHapiCreateMessageSimpleExample
                 var xmlParser = new DefaultXMLParser();
 
                 // print out the message that we constructed
-                Console.WriteLine("Message was constructed successfully..." + "\n");
+                LogToDebugConsole("Message was constructed successfully..." + "\n");
 
                 // serialize the message to pipe delimited output file
                 WriteMessageFile(pipeParser, adtMessage, "C:\\HL7TestOutputs", "testPipeDelimitedOutputFile.txt");
@@ -32,7 +33,7 @@ namespace NHapiCreateMessageSimpleExample
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Error occured while creating HL7 message {e.Message}");
+                LogToDebugConsole($"Error occured while creating HL7 message {e.Message}");
             }
         }
 
@@ -43,9 +44,17 @@ namespace NHapiCreateMessageSimpleExample
 
             var fileName = Path.Combine(outputDirectory, outputFileName);
 
-            if(File.Exists(fileName))
+            LogToDebugConsole("Writing data to file...");
+
+            if (File.Exists(fileName))
                 File.Delete(fileName);
             File.WriteAllText(fileName, parser.Encode(hl7Message));
+            LogToDebugConsole($"Wrote data to file {fileName} successfully...");
+        }
+
+        private static void LogToDebugConsole(string informationToLog)
+        {
+            Debug.WriteLine(informationToLog);
         }
     }
 }
