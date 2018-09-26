@@ -37,6 +37,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHapiCreateMessageSimpleExa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHapiSendMessageSimpleExample", "NHapiSendMessageSimpleExample\NHapiSendMessageSimpleExample.csproj", "{8B8B225D-8CD9-4100-8A6D-EF53A6A803D2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHapiParserBasicOperations", "NHapiParserBasicOperations\NHapiParserBasicOperations.csproj", "{B9DEAEF3-B1BC-4910-A4B0-20DD0FC30A16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHapiParserCustomMessageModelExample", "NHapiParserCustomMessageModelExample\NHapiParserCustomMessageModelExample.csproj", "{1ABC47AC-2370-4C1C-840D-5A44E826C06C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHapi.Model.CustomZSegments", "NHapi.Model.CustomZSegments\NHapi.Model.CustomZSegments.csproj", "{932FEC76-2027-46C4-86DE-6A0C6BA72D2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHapiToolsGenericMessageWrapperParsingApproach", "NHapiToolsGenericMessageWrapperParsingApproach\NHapiToolsGenericMessageWrapperParsingApproach.csproj", "{30BCF7F9-0B5C-4646-8EE4-1E1785F7DFF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +83,22 @@ Global
 		{8B8B225D-8CD9-4100-8A6D-EF53A6A803D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B8B225D-8CD9-4100-8A6D-EF53A6A803D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B8B225D-8CD9-4100-8A6D-EF53A6A803D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9DEAEF3-B1BC-4910-A4B0-20DD0FC30A16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9DEAEF3-B1BC-4910-A4B0-20DD0FC30A16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9DEAEF3-B1BC-4910-A4B0-20DD0FC30A16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9DEAEF3-B1BC-4910-A4B0-20DD0FC30A16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ABC47AC-2370-4C1C-840D-5A44E826C06C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ABC47AC-2370-4C1C-840D-5A44E826C06C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ABC47AC-2370-4C1C-840D-5A44E826C06C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ABC47AC-2370-4C1C-840D-5A44E826C06C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{932FEC76-2027-46C4-86DE-6A0C6BA72D2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{932FEC76-2027-46C4-86DE-6A0C6BA72D2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{932FEC76-2027-46C4-86DE-6A0C6BA72D2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{932FEC76-2027-46C4-86DE-6A0C6BA72D2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30BCF7F9-0B5C-4646-8EE4-1E1785F7DFF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30BCF7F9-0B5C-4646-8EE4-1E1785F7DFF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30BCF7F9-0B5C-4646-8EE4-1E1785F7DFF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30BCF7F9-0B5C-4646-8EE4-1E1785F7DFF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,5 +112,9 @@ Global
 		{304307CD-2BB9-4349-A799-0A34BA5A7E81} = {7270FFCA-9072-485B-9BD2-0B40B2ACA858}
 		{3506AD7C-BD6C-4DA9-AE6E-3ABCA0DAD639} = {C71B9711-BDBF-4F52-BE35-551D8CAA6262}
 		{8B8B225D-8CD9-4100-8A6D-EF53A6A803D2} = {DB4A81B8-24C5-429C-A844-08AC174C5B34}
+		{B9DEAEF3-B1BC-4910-A4B0-20DD0FC30A16} = {18F50AFD-7C03-41AC-ABA8-99540A4FF89C}
+		{1ABC47AC-2370-4C1C-840D-5A44E826C06C} = {18F50AFD-7C03-41AC-ABA8-99540A4FF89C}
+		{932FEC76-2027-46C4-86DE-6A0C6BA72D2E} = {18F50AFD-7C03-41AC-ABA8-99540A4FF89C}
+		{30BCF7F9-0B5C-4646-8EE4-1E1785F7DFF8} = {18F50AFD-7C03-41AC-ABA8-99540A4FF89C}
 	EndGlobalSection
 EndGlobal
