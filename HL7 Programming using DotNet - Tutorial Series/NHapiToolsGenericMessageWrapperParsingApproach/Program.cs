@@ -15,22 +15,22 @@ namespace NHapiToolsGenericMessageWrapperParsingApproach
                                                         + "PID|||5520255^^^PK^PK~ZZZZZZ83M64Z148R^^^CF^CF~ZZZZZZ83M64Z148R^^^SSN^SSN^^20070103^99991231~^^^^TEAM||ZZZ^ZZZ||19830824|F||||||||||||||||||||||N\r"
                                                         + "ZPV|Some Custom Notes|Additional custom description of the visit goes here";
 
-            var emch = new EnhancedModelClassFactory();
-            var parser = new PipeParser(emch);
-            emch.ValidationContext = parser.ValidationContext;
+            var enhancedModelClassFactory = new EnhancedModelClassFactory();
+            var pipeParser = new PipeParser(enhancedModelClassFactory);
+            enhancedModelClassFactory.ValidationContext = pipeParser.ValidationContext;
 
             LogToDebugConsole("Attempting to parse message string into HL7 message object...");
 
-            var im = parser.Parse(customSegmentBasedHl7Message);
+            var ourHl7Message = pipeParser.Parse(customSegmentBasedHl7Message);
 
             LogToDebugConsole("Parsed message into generic ADT_A01 message successfully...");
 
             LogToDebugConsole("Unwrapping payload from our custom ADT_A01 message using GenericMessageWrapper class...");
 
-            var gcw = im as GenericMessageWrapper;
-            var originalMessage = gcw?.Unwrap();
+            var wrappedGenericMessage = ourHl7Message as GenericMessageWrapper;
+            var originalMessage = wrappedGenericMessage?.Unwrap();
 
-            if (gcw?.GetSegment<ISegment>("ZPV") != null)
+            if (wrappedGenericMessage?.GetSegment<ISegment>("ZPV") != null)
             {
                 LogToDebugConsole("Casting unwrapped payload into our custom ADT A01 class...");
                 //casting to our custom class and retrieving the custom segment within it
