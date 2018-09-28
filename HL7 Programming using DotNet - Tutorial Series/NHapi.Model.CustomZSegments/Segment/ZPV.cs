@@ -28,19 +28,19 @@ namespace NHapi.Model.CustomZSegments.Segment
 		{
 			get
 			{
-				ST ret;
+				ST customNotes;
 				try
 				{
-					var t = GetField(1, 0);
-					ret = (ST) t;
+					var fieldData = GetField(1, 0);
+					customNotes = (ST) fieldData;
 				}
 				catch (Exception ex)
 				{
-				    var errorMessage = "Unexpected error occured while obtaining Custom Notes field value.";
+				    const string errorMessage = "Unexpected error occured while obtaining Custom Notes field value.";
 				    HapiLogFactory.GetHapiLog(GetType()).Error(errorMessage, ex);
 					throw new Exception(errorMessage, ex);
 				}
-				return ret;
+				return customNotes;
 			}
 		}
 
@@ -48,11 +48,11 @@ namespace NHapi.Model.CustomZSegments.Segment
         {
 			get
 			{
-				ST ret;
+				ST customDescription;
 				try
 				{
-					var t = GetField(2, 0);
-					ret = (ST) t;
+					var fieldData = GetField(2, 0);
+				    customDescription = (ST)fieldData;
 				}
 				catch (Exception ex)
 				{
@@ -60,7 +60,7 @@ namespace NHapi.Model.CustomZSegments.Segment
                     HapiLogFactory.GetHapiLog(GetType()).Error(errorMessage, ex);
 					throw new Exception(errorMessage, ex);
 				}
-				return ret;
+				return customDescription;
 			}
 		}
 		

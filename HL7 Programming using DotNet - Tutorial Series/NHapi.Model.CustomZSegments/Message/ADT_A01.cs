@@ -30,10 +30,10 @@ namespace NHapi.Model.CustomZSegments.Message
         {
 			get
 			{
-			    ZPV ret = null;
+			    ZPV segmentData = null;
 				try
 				{
-					ret = (ZPV) this.GetStructure("ZPV");
+					segmentData = (ZPV) this.GetStructure("ZPV");
 				}
 				catch (HL7Exception e)
 				{
@@ -41,7 +41,7 @@ namespace NHapi.Model.CustomZSegments.Message
 				    HapiLogFactory.GetHapiLog(this.GetType()).Error(errorMessage, e);
 					throw new System.Exception(errorMessage, e);
 				}
-				return ret;
+				return segmentData;
 			}
 		}	
 		
