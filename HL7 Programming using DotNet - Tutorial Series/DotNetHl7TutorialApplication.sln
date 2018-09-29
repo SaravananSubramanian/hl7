@@ -45,6 +45,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHapi.Model.CustomZSegments
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHapiToolsGenericMessageWrapperParsingApproach", "NHapiToolsGenericMessageWrapperParsingApproach\NHapiToolsGenericMessageWrapperParsingApproach.csproj", "{30BCF7F9-0B5C-4646-8EE4-1E1785F7DFF8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HapiTerserBasicOperations", "HapiTerserBasicOperations\HapiTerserBasicOperations.csproj", "{51C72ADF-9769-4B10-ACB4-F21A4D7F879E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HapiTerserAdvancedOperations", "HapiTerserAdvancedOperations\HapiTerserAdvancedOperations.csproj", "{711ABCEF-BCB2-4B60-B130-9BA4E6ADEC9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +103,14 @@ Global
 		{30BCF7F9-0B5C-4646-8EE4-1E1785F7DFF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30BCF7F9-0B5C-4646-8EE4-1E1785F7DFF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30BCF7F9-0B5C-4646-8EE4-1E1785F7DFF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51C72ADF-9769-4B10-ACB4-F21A4D7F879E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51C72ADF-9769-4B10-ACB4-F21A4D7F879E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51C72ADF-9769-4B10-ACB4-F21A4D7F879E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51C72ADF-9769-4B10-ACB4-F21A4D7F879E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{711ABCEF-BCB2-4B60-B130-9BA4E6ADEC9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{711ABCEF-BCB2-4B60-B130-9BA4E6ADEC9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{711ABCEF-BCB2-4B60-B130-9BA4E6ADEC9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{711ABCEF-BCB2-4B60-B130-9BA4E6ADEC9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -116,5 +128,7 @@ Global
 		{1ABC47AC-2370-4C1C-840D-5A44E826C06C} = {18F50AFD-7C03-41AC-ABA8-99540A4FF89C}
 		{932FEC76-2027-46C4-86DE-6A0C6BA72D2E} = {18F50AFD-7C03-41AC-ABA8-99540A4FF89C}
 		{30BCF7F9-0B5C-4646-8EE4-1E1785F7DFF8} = {18F50AFD-7C03-41AC-ABA8-99540A4FF89C}
+		{51C72ADF-9769-4B10-ACB4-F21A4D7F879E} = {509820CC-1B7D-4F05-8B7B-CD86DC83EEAD}
+		{711ABCEF-BCB2-4B60-B130-9BA4E6ADEC9B} = {509820CC-1B7D-4F05-8B7B-CD86DC83EEAD}
 	EndGlobalSection
 EndGlobal
