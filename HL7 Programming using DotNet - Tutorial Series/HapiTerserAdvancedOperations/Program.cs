@@ -28,6 +28,8 @@ namespace HapiTerserAdvancedOperations
                 //now, let us do various operations on the message
                 var terserDemonstrator = new OurTerserHelper(terser);
 
+                //use a HL7 test utility such as HAPI Test Panel Utility as reference 
+                //for a visual breakdown of these structures if you need to understand these terser expressions
                 var terserExpression = "/RESPONSE/PATIENT/PID-5-1";
                 var dataRetrieved = terserDemonstrator.GetData(terserExpression); 
                 LogToDebugConsole($"Terser expression  '{terserExpression}' yielded '{dataRetrieved}'");
