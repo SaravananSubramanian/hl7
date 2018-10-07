@@ -1,0 +1,6 @@
+C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\SimpleMllpHl7Client\bin\Debug\SimpleMllpHl7Client.exe.config
+C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\SimpleMllpHl7Client\bin\Debug\SimpleMllpHl7Client.exe
+C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\SimpleMllpHl7Client\bin\Debug\SimpleMllpHl7Client.pdb
+C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\SimpleMllpHl7Client\obj\Debug\SimpleMllpHl7Client.csprojResolveAssemblyReference.cache
+C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\SimpleMllpHl7Client\obj\Debug\SimpleMllpHl7Client.exe
+C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\SimpleMllpHl7Client\obj\Debug\SimpleMllpHl7Client.pdb

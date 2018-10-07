@@ -1,0 +1,6 @@
+C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\SimpleTcpEchoServer\bin\Debug\SimpleTcpEchoServer.exe.config
+C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\SimpleTcpEchoServer\bin\Debug\SimpleTcpEchoServer.exe
+C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\SimpleTcpEchoServer\bin\Debug\SimpleTcpEchoServer.pdb
+C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\SimpleTcpEchoServer\obj\Debug\SimpleTcpEchoServer.csprojResolveAssemblyReference.cache
+C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\SimpleTcpEchoServer\obj\Debug\SimpleTcpEchoServer.exe
+C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\SimpleTcpEchoServer\obj\Debug\SimpleTcpEchoServer.pdb

@@ -1,0 +1,6 @@
+C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\MultiThreadedTcpEchoServer\bin\Debug\MultiThreadedTcpEchoServer.exe.config
+C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\MultiThreadedTcpEchoServer\bin\Debug\MultiThreadedTcpEchoServer.exe
+C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\MultiThreadedTcpEchoServer\bin\Debug\MultiThreadedTcpEchoServer.pdb
+C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\MultiThreadedTcpEchoServer\obj\Debug\MultiThreadedTcpEchoServer.csprojResolveAssemblyReference.cache
+C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\MultiThreadedTcpEchoServer\obj\Debug\MultiThreadedTcpEchoServer.exe
+C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\MultiThreadedTcpEchoServer\obj\Debug\MultiThreadedTcpEchoServer.pdb
