@@ -13,21 +13,22 @@ namespace CommonUtils
             return Convert.ToBase64String(File.ReadAllBytes(inputFile.FullName));
         }
 
-        public byte[] ConvertFromBase64String(byte[] base64EncodedByteData)
-        {
-            if (base64EncodedByteData == null)
-                throw new ArgumentNullException(nameof(base64EncodedByteData), "You must supply data for Base64 decoding operation");
-
-            var decodedByteData = Convert.ToBase64String(base64EncodedByteData);
-            return Convert.FromBase64String(decodedByteData);
-        }
-
         public byte[] ConvertFromBase64String(string base64EncodedString)
         {
             if (string.IsNullOrEmpty(base64EncodedString))
                 throw new ArgumentNullException(nameof(base64EncodedString), "You must supply data for Base64 decoding operation");
 
-            return Convert.FromBase64String(base64EncodedString);
+            if (base64EncodedString.Length % 4 != 0)
+                throw new BadBase64EncodingException("The BASE-64 encoded data is not in correct form (divide by 4 resulted in a remainder)");
+
+            try
+            {
+                return Convert.FromBase64String(base64EncodedString);
+            }
+            catch (Exception )
+            {
+                throw new ApplicationException("Unable to decode Base-64 string supplied for operation. Please check your inputs") ;
+            }
         }
     }
 }

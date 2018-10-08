@@ -12,7 +12,7 @@ namespace ReceivingBinaryDataExample
     public class Program
     {
         private static readonly string OruR01MessageWithBase64EncodedPdfReportIncluded = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Test Files", "SaravananOruR01Message.hl7");
-        private static string _extractedPdfOutputDirectory = "C:\\HL7TestOutputs";
+        private const string ExtractedPdfOutputDirectory = "C:\\HL7TestOutputs";
 
         public static void Main(string[] args)
         {
@@ -71,12 +71,12 @@ namespace ReceivingBinaryDataExample
 
         private static void WriteExtractedPdfByteDataToFile(byte[] extractedPdfByteData)
         {
-            LogToDebugConsole($"Creating output directory at '{_extractedPdfOutputDirectory}'..");
+            LogToDebugConsole($"Creating output directory at '{ExtractedPdfOutputDirectory}'..");
 
-            if (!Directory.Exists(_extractedPdfOutputDirectory))
-                Directory.CreateDirectory(_extractedPdfOutputDirectory);
+            if (!Directory.Exists(ExtractedPdfOutputDirectory))
+                Directory.CreateDirectory(ExtractedPdfOutputDirectory);
 
-            var pdfOutputFile = Path.Combine(_extractedPdfOutputDirectory, "ExtractedPdfReport.pdf");
+            var pdfOutputFile = Path.Combine(ExtractedPdfOutputDirectory, "ExtractedPdfReport.pdf");
             LogToDebugConsole(
                 $"Writing the extracted PDF data to '{pdfOutputFile}'. You should be able to see the decoded PDF content..");
             File.WriteAllBytes(pdfOutputFile, extractedPdfByteData);

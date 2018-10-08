@@ -106,6 +106,12 @@ namespace SendingBinaryDataExample
             //data type is not known until run-time (e.g. OBX-5)
             var varies = obxSegment.GetObservationValue(0);
             var encapsulatedData = new ED(_oruR01Message, "PDF Report Content");
+
+            encapsulatedData.SourceApplication.NamespaceID.Value = "Our .NET Application";
+            encapsulatedData.TypeOfData.Value = "AP"; //see HL7 table 0191: Type of referenced data
+            encapsulatedData.DataSubtype.Value = "PDF";
+            encapsulatedData.Encoding.Value = "Base64";
+
             var base64EncodedStringOfPdfReport = _ourBase64Helper.ConvertToBase64String(new FileInfo(_pdfFilePath));
             encapsulatedData.Data.Value = base64EncodedStringOfPdfReport;
             varies.Data = encapsulatedData;

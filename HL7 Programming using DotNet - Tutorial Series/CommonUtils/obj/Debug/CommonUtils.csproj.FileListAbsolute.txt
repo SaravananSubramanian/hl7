@@ -1,4 +1,0 @@
-C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\CommonUtils\bin\Debug\CommonUtils.dll
-C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\CommonUtils\bin\Debug\CommonUtils.pdb
-C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\CommonUtils\obj\Debug\CommonUtils.dll
-C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\CommonUtils\obj\Debug\CommonUtils.pdb
