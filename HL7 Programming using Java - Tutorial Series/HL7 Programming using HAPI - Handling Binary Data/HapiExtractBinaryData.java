@@ -55,7 +55,7 @@ public class HapiExtractBinaryData {
 		}
 	}
 
-	private static void ExtractPdfDataAndWriteToFile(PipeParser ourPipeParser, ORU_R01 oruR01Message) throws HL7Exception, IOException {
+	private static void ExtractPdfDataAndWriteToFile(PipeParser ourPipeParser, ORU_R01 oruR01Message) throws HL7Exception, IOException, BadBase64EncodingException {
 		
 		ED encapsulatedPdfDataInBase64Format = getEncapsulatedDataFromObservationSegment(oruR01Message);
 
@@ -76,7 +76,7 @@ public class HapiExtractBinaryData {
 		System.out.println("Extraction operation was successfully completed..");
 	}
 
-	private static byte[] getBase64DecodedPdfByteData(ED encapsulatedPdfDataInBase64Format) {
+	private static byte[] getBase64DecodedPdfByteData(ED encapsulatedPdfDataInBase64Format) throws BadBase64EncodingException {
 		OurBase64Helper helper = new OurBase64Helper();
 		System.out.println("Extracting PDF data stored in Base-64 encoded form from OBX-5..");
 		String base64EncodedData = encapsulatedPdfDataInBase64Format.getData().getValue();

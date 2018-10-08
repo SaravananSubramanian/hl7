@@ -16,20 +16,21 @@ public class OurBase64Helper {
         return new String(Base64.encodeBase64(Files.readAllBytes(inputFile.toPath())));
     }
 
-    public byte[] ConvertFromBase64String(byte[] base64EncodedByteData)
-    {
-        if (base64EncodedByteData == null)
-            throw new IllegalArgumentException("You must supply byte data for Base64 decoding operation");
-        
-        String decodedByteData = Base64.encodeBase64String(base64EncodedByteData);
-        return Base64.decodeBase64(decodedByteData);
-    }
-
-    public byte[] ConvertFromBase64String(String base64EncodedString)
+    public byte[] ConvertFromBase64String(String base64EncodedString) throws BadBase64EncodingException
     {
         if (base64EncodedString == null || base64EncodedString.length() == 0)
         	throw new IllegalArgumentException("You must supply byte string for Base64 decoding operation");
+        
+        if (base64EncodedString.length() % 4 != 0)
+        	throw new BadBase64EncodingException("The BASE-64 encoded data is not in correct form (divide by 4 resulted in a remainder)");
 
-        return Base64.decodeBase64(base64EncodedString);
+        try {
+			return Base64.decodeBase64(base64EncodedString);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unable to decode Base-64 string supplied for operation. Please check your inputs");
+		}
     }
 }
+
+

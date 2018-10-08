@@ -102,13 +102,18 @@ public class OurOruR01MessageBuilder {
 	private void CreateObxSegment() throws DataTypeException, IOException {
 		ORU_R01_OBSERVATION observation = _oruR01Message.getPATIENT_RESULT().getORDER_OBSERVATION().getOBSERVATION(0);
 		OBX obx = observation.getOBX();
-        obx.getSetIDOBX().setValue("1");
+        obx.getSetIDOBX().setValue("0");
         obx.getValueType().setValue("ED");
         obx.getObservationIdentifier().getIdentifier().setValue("Report");
         Varies value = obx.getObservationValue(0);
         ED encapsulatedData = new ED(_oruR01Message);
         String base64EncodedStringOfPdfReport = _ourBase64Helper.ConvertToBase64String(new File("C:\\HL7TestInputFiles\\Sample Pathology Lab Report.pdf"));
-		encapsulatedData.getData().setValue(base64EncodedStringOfPdfReport);
+        encapsulatedData.getEd1_SourceApplication().getHd1_NamespaceID().setValue("Our Java Application");
+        encapsulatedData.getTypeOfData().setValue("AP"); //see HL7 table 0191: Type of referenced data
+        encapsulatedData.getDataSubtype().setValue("PDF");
+        encapsulatedData.getEncoding().setValue("Base64");
+        
+        encapsulatedData.getData().setValue(base64EncodedStringOfPdfReport);
         value.setData(encapsulatedData);
 	}
 
