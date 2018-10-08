@@ -31,39 +31,57 @@ namespace ReceivingBinaryDataExample
                     LogToDebugConsole("Parsed HL7 Message:");
                     LogToDebugConsole(ourPipeParser.Encode(hl7Message));
 
-                    //start retrieving the OBX segment data to get at the PDF report content
-                    LogToDebugConsole("Extracting message data from parsed message..");
-                    var ourOrderObservation = oruR01Message.GetRESPONSE().GetORDER_OBSERVATION();
-                    var observation = ourOrderObservation.GetOBSERVATION(0);
-                    var obxSegment = observation.OBX;
-
-                    var encapsulatedPdfDataInBase64Format = obxSegment.GetObservationValue(0).Data as ED;
+                    var encapsulatedPdfDataInBase64Format = ExtractEncapsulatedPdfDataInBase64Format(oruR01Message);
 
                     //if no encapsulated data was found, you can cease operation
                     if (encapsulatedPdfDataInBase64Format == null) return;
 
-                    var helper = new OurBase64Helper();
+                    var extractedPdfByteData = GetBase64DecodedPdfByteData(encapsulatedPdfDataInBase64Format);
 
-                    LogToDebugConsole("Extracting PDF data stored in Base-64 encoded form from OBX-5..");
-                    var base64EncodedByteData = encapsulatedPdfDataInBase64Format.Data.Value;
-                    var extractedPdfByteData = helper.ConvertFromBase64String(base64EncodedByteData);
-
-                    LogToDebugConsole($"Creating output directory at '{_extractedPdfOutputDirectory}'..");
-
-                    if (!Directory.Exists(_extractedPdfOutputDirectory))
-                        Directory.CreateDirectory(_extractedPdfOutputDirectory);
-                        
-                    var pdfOutputFile = Path.Combine(_extractedPdfOutputDirectory,"ExtractedPdfReport.pdf");
-                    LogToDebugConsole($"Writing the extracted PDF data to '{pdfOutputFile}'. You should be able to see the decoded PDF content..");
-                    File.WriteAllBytes(pdfOutputFile, extractedPdfByteData);
-
-                    LogToDebugConsole("Extraction operation was successfully completed..");
+                    WriteExtractedPdfByteDataToFile(extractedPdfByteData);
                 }
             }
             catch (Exception e)
             {
                 LogToDebugConsole($"Error occured during Order Response PDF extraction operation -> {e.StackTrace}");
             }
+        }
+
+        private static ED ExtractEncapsulatedPdfDataInBase64Format(ORU_R01 oruR01Message)
+        {
+            //start retrieving the OBX segment data to get at the PDF report content
+            LogToDebugConsole("Extracting message data from parsed message..");
+            var ourOrderObservation = oruR01Message.GetRESPONSE().GetORDER_OBSERVATION();
+            var observation = ourOrderObservation.GetOBSERVATION(0);
+            var obxSegment = observation.OBX;
+
+            var encapsulatedPdfDataInBase64Format = obxSegment.GetObservationValue(0).Data as ED;
+            return encapsulatedPdfDataInBase64Format;
+        }
+
+        private static byte[] GetBase64DecodedPdfByteData(ED encapsulatedPdfDataInBase64Format)
+        {
+            var helper = new OurBase64Helper();
+
+            LogToDebugConsole("Extracting PDF data stored in Base-64 encoded form from OBX-5..");
+            var base64EncodedByteData = encapsulatedPdfDataInBase64Format.Data.Value;
+            var extractedPdfByteData = helper.ConvertFromBase64String(base64EncodedByteData);
+            return extractedPdfByteData;
+        }
+
+        private static void WriteExtractedPdfByteDataToFile(byte[] extractedPdfByteData)
+        {
+            LogToDebugConsole($"Creating output directory at '{_extractedPdfOutputDirectory}'..");
+
+            if (!Directory.Exists(_extractedPdfOutputDirectory))
+                Directory.CreateDirectory(_extractedPdfOutputDirectory);
+
+            var pdfOutputFile = Path.Combine(_extractedPdfOutputDirectory, "ExtractedPdfReport.pdf");
+            LogToDebugConsole(
+                $"Writing the extracted PDF data to '{pdfOutputFile}'. You should be able to see the decoded PDF content..");
+            File.WriteAllBytes(pdfOutputFile, extractedPdfByteData);
+
+            LogToDebugConsole("Extraction operation was successfully completed..");
         }
 
         private static void LogToDebugConsole(string informationToLog)
