@@ -61,7 +61,7 @@ namespace NHapiParserBasicMessageValidationDemo
                 eventReasonCode += "RANDOMTEXT";
             }
 
-            var anAdtMessageWithInvalidEvn4Field =
+            var adtMessageWithInvalidEvn4Field =
                 "MSH|^~\\&|SENDING_APPLICATION|SENDING_FACILITY|RECEIVING_APPLICATION|RECEIVING_FACILITY|" +
                 "20110613083617||ADT^A01|2323232223232|P|2.3||||\r" +
                 "EVN|A01|20110613083617||" + eventReasonCode + "|\r" +
@@ -74,7 +74,7 @@ namespace NHapiParserBasicMessageValidationDemo
             var parser = new PipeParser {ValidationContext = new DefaultValidation()};
             try
             {
-                parser.Parse(anAdtMessageWithInvalidEvn4Field);
+                parser.Parse(adtMessageWithInvalidEvn4Field);
             }
             catch (Exception e)
             {
@@ -92,7 +92,7 @@ namespace NHapiParserBasicMessageValidationDemo
             //We are going to set the value in PID-1 (Set ID – Patient ID - 'SI' data type field) to be a negative number
             //This should trigger an exception as part of the strict validation rules enabled in the NHAPI parser
 
-            var anAdtMessageWithInvalidPid1Field =
+            var adtMessageWithInvalidPid1Field =
                 "MSH|^~\\&|SENDING_APPLICATION|SENDING_FACILITY|" +
                 "RECEIVING_APPLICATION|RECEIVING_FACILITY|" +
                 "20110613083617||ADT^A01|2323232223232|P|2.3||||\r" +
@@ -106,7 +106,7 @@ namespace NHapiParserBasicMessageValidationDemo
             var parser = new PipeParser {ValidationContext = new StrictValidation()};
             try
             {
-                parser.Parse(anAdtMessageWithInvalidPid1Field);
+                parser.Parse(adtMessageWithInvalidPid1Field);
             }
             catch (Exception e)
             {
@@ -122,7 +122,7 @@ namespace NHapiParserBasicMessageValidationDemo
             //We are going to specify a message rule that EVN-4 (Event Reason Code) field is mandatory 
             //We do not have any data for the EVN-4 field here in order to trigger the validation exception
 
-            var anAdtMessageWithMissingEvn4Field =
+            var adtMessageWithMissingEvn4Field =
                 "MSH|^~\\&|SENDING_APPLICATION|SENDING_FACILITY|RECEIVING_APPLICATION|RECEIVING_FACILITY|" +
                 "20110613083617||ADT^A01|2323232223232|P|2.3||||\r" +
                 "EVN|A01|20110613083617|||\r" +
@@ -131,11 +131,11 @@ namespace NHapiParserBasicMessageValidationDemo
                 "PV1|1|O|||||^^^^^^^^|^^^^^^^^";
             ;
 
-            //make the parser use our custom validation context class
+            //make the parser use our custom message validation context class
             var parser = new PipeParser {ValidationContext = new OurCustomMessageValidation()};
             try
             {
-                parser.Parse(anAdtMessageWithMissingEvn4Field);
+                parser.Parse(adtMessageWithMissingEvn4Field);
             }
             catch (Exception e)
             {
