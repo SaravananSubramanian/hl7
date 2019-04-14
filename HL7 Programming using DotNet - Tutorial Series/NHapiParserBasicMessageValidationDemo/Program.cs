@@ -131,7 +131,7 @@ namespace NHapiParserBasicMessageValidationDemo
                 "PV1|1|O|||||^^^^^^^^|^^^^^^^^";
             ;
 
-            //make the parser use 'StrictValidation'
+            //make the parser use our custom validation context class
             var parser = new PipeParser {ValidationContext = new OurCustomMessageValidation()};
             try
             {
