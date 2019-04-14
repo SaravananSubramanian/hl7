@@ -1,6 +1,0 @@
-C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\SimpleMultiThreadedMllpHl7Server\bin\Debug\SimpleMultiThreadedMllpHl7Server.exe.config
-C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\SimpleMultiThreadedMllpHl7Server\bin\Debug\SimpleMultiThreadedMllpHl7Server.exe
-C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\SimpleMultiThreadedMllpHl7Server\bin\Debug\SimpleMultiThreadedMllpHl7Server.pdb
-C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\SimpleMultiThreadedMllpHl7Server\obj\Debug\SimpleMultiThreadedMllpHl7Server.csprojResolveAssemblyReference.cache
-C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\SimpleMultiThreadedMllpHl7Server\obj\Debug\SimpleMultiThreadedMllpHl7Server.exe
-C:\Junk\hl7\HL7 Programming using DotNet - Tutorial Series\SimpleMultiThreadedMllpHl7Server\obj\Debug\SimpleMultiThreadedMllpHl7Server.pdb
