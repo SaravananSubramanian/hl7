@@ -19,7 +19,7 @@ namespace NHapiParserBasicMessageValidationDemo
 
             if (string.IsNullOrEmpty(value))
             {
-                validationResults = new ValidationException[1] { new ValidationException(Description) };
+                validationResults = new[] { new ValidationException(Description) };
             }
 
             return validationResults;
