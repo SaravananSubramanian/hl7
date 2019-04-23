@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3899D52E-8CD9-4548-8968-8D77DE480F45}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SendingBinaryDataExample</RootNamespace>
+    <AssemblyName>SendingBinaryDataExample</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NHapi.Base, Version=2.5.0.6, Culture=neutral, PublicKeyToken=d0d8ea960a3440eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\nHapi.2.5.0.6\lib\NHapi.Base.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapi.Model.V21, Version=2.5.0.6, Culture=neutral, PublicKeyToken=d0d8ea960a3440eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\nHapi.2.5.0.6\lib\NHapi.Model.V21.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapi.Model.V22, Version=2.5.0.6, Culture=neutral, PublicKeyToken=d0d8ea960a3440eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\nHapi.2.5.0.6\lib\NHapi.Model.V22.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapi.Model.V23, Version=2.5.0.6, Culture=neutral, PublicKeyToken=d0d8ea960a3440eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\nHapi.2.5.0.6\lib\NHapi.Model.V23.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapi.Model.V231, Version=2.5.0.6, Culture=neutral, PublicKeyToken=d0d8ea960a3440eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\nHapi.2.5.0.6\lib\NHapi.Model.V231.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapi.Model.V24, Version=2.5.0.6, Culture=neutral, PublicKeyToken=d0d8ea960a3440eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\nHapi.2.5.0.6\lib\NHapi.Model.V24.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapi.Model.V25, Version=2.5.0.6, Culture=neutral, PublicKeyToken=d0d8ea960a3440eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\nHapi.2.5.0.6\lib\NHapi.Model.V25.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapi.Model.V251, Version=2.5.0.6, Culture=neutral, PublicKeyToken=d0d8ea960a3440eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\nHapi.2.5.0.6\lib\NHapi.Model.V251.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapi.Model.V26, Version=2.5.0.6, Culture=neutral, PublicKeyToken=d0d8ea960a3440eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\nHapi.2.5.0.6\lib\NHapi.Model.V26.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapi.Model.V27, Version=2.5.0.6, Culture=neutral, PublicKeyToken=d0d8ea960a3440eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\nHapi.2.5.0.6\lib\NHapi.Model.V27.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapi.Model.V271, Version=2.5.0.6, Culture=neutral, PublicKeyToken=d0d8ea960a3440eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\nHapi.2.5.0.6\lib\NHapi.Model.V271.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapi.Model.V28, Version=2.5.0.6, Culture=neutral, PublicKeyToken=d0d8ea960a3440eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\nHapi.2.5.0.6\lib\NHapi.Model.V28.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapi.Model.V281, Version=2.5.0.6, Culture=neutral, PublicKeyToken=d0d8ea960a3440eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\nHapi.2.5.0.6\lib\NHapi.Model.V281.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapiTools.Base, Version=1.10.0.0, Culture=neutral, PublicKeyToken=8cc2ca07deb72b3d, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHapiTools.1.10.0.0\lib\NHapiTools.Base.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapiTools.Model.V21, Version=1.10.0.0, Culture=neutral, PublicKeyToken=8cc2ca07deb72b3d, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHapiTools.1.10.0.0\lib\NHapiTools.Model.V21.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapiTools.Model.V22, Version=1.10.0.0, Culture=neutral, PublicKeyToken=8cc2ca07deb72b3d, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHapiTools.1.10.0.0\lib\NHapiTools.Model.V22.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapiTools.Model.V23, Version=1.10.0.0, Culture=neutral, PublicKeyToken=8cc2ca07deb72b3d, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHapiTools.1.10.0.0\lib\NHapiTools.Model.V23.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapiTools.Model.V231, Version=1.10.0.0, Culture=neutral, PublicKeyToken=8cc2ca07deb72b3d, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHapiTools.1.10.0.0\lib\NHapiTools.Model.V231.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapiTools.Model.V24, Version=1.10.0.0, Culture=neutral, PublicKeyToken=8cc2ca07deb72b3d, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHapiTools.1.10.0.0\lib\NHapiTools.Model.V24.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapiTools.Model.V25, Version=1.10.0.0, Culture=neutral, PublicKeyToken=8cc2ca07deb72b3d, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHapiTools.1.10.0.0\lib\NHapiTools.Model.V25.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapiTools.Model.V251, Version=1.10.0.0, Culture=neutral, PublicKeyToken=8cc2ca07deb72b3d, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHapiTools.1.10.0.0\lib\NHapiTools.Model.V251.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapiTools.Model.V26, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8cc2ca07deb72b3d, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHapiTools.1.10.0.0\lib\NHapiTools.Model.V26.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapiTools.Model.V27, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8cc2ca07deb72b3d, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHapiTools.1.10.0.0\lib\NHapiTools.Model.V27.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapiTools.Model.V271, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8cc2ca07deb72b3d, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHapiTools.1.10.0.0\lib\NHapiTools.Model.V271.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapiTools.Model.V28, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8cc2ca07deb72b3d, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHapiTools.1.10.0.0\lib\NHapiTools.Model.V28.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHapiTools.Model.V281, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8cc2ca07deb72b3d, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHapiTools.1.10.0.0\lib\NHapiTools.Model.V281.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="OruMessageFactory.cs" />
+    <Compile Include="OurOruR01MessageBuilder.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="Test Files\Sample Pathology Lab Report.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonUtils\CommonUtils.csproj">
+      <Project>{6fa5e3c3-0d91-4a54-b09e-f265dbb5ce28}</Project>
+      <Name>CommonUtils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

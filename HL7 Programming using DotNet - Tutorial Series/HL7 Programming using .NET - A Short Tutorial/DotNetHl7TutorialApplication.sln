@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiThreadedTcpEchoServer", "MultiThreadedTcpEchoServer\MultiThreadedTcpEchoServer.csproj", "{A5C5CFAA-C76F-4652-80F5-C7B2F2D00691}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMllpHl7Client", "SimpleMllpHl7Client\SimpleMllpHl7Client.csproj", "{9BD1AE4A-136D-4813-8276-9079AF7E6C2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMllpHl7ClientAdvanced", "SimpleMllpHl7ClientAdvanced\SimpleMllpHl7ClientAdvanced.csproj", "{304307CD-2BB9-4349-A799-0A34BA5A7E81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMultiThreadedMllpHl7Server", "SimpleMultiThreadedMllpHl7Server\SimpleMultiThreadedMllpHl7Server.csproj", "{D0980258-6125-44B2-9574-24AD17B37B08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleTcpEchoClient", "SimpleTcpEchoClient\SimpleTcpEchoClient.csproj", "{F6669F4E-43F2-4DC2-84E2-E152161E4CF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleTcpEchoServer", "SimpleTcpEchoServer\SimpleTcpEchoServer.csproj", "{9A634456-DF81-4948-BC07-DD26AB858666}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Step 1 of 3 - Simple Echo TcpIp Client and Server", "Step 1 of 3 - Simple Echo TcpIp Client and Server", "{08553E36-8973-465E-BDA8-56DC2B129DF9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Step 2 of 3 - MultiThreaded TcpIp Server", "Step 2 of 3 - MultiThreaded TcpIp Server", "{F8AE3E07-C799-49B8-8A1B-FDB036265503}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Step 3 of 3 - MLLP Client and Server", "Step 3 of 3 - MLLP Client and Server", "{07A2F6C5-A288-43AF-A3A4-4A5C968C8DF4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A5C5CFAA-C76F-4652-80F5-C7B2F2D00691}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5C5CFAA-C76F-4652-80F5-C7B2F2D00691}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5C5CFAA-C76F-4652-80F5-C7B2F2D00691}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5C5CFAA-C76F-4652-80F5-C7B2F2D00691}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BD1AE4A-136D-4813-8276-9079AF7E6C2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BD1AE4A-136D-4813-8276-9079AF7E6C2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BD1AE4A-136D-4813-8276-9079AF7E6C2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BD1AE4A-136D-4813-8276-9079AF7E6C2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{304307CD-2BB9-4349-A799-0A34BA5A7E81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{304307CD-2BB9-4349-A799-0A34BA5A7E81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{304307CD-2BB9-4349-A799-0A34BA5A7E81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{304307CD-2BB9-4349-A799-0A34BA5A7E81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0980258-6125-44B2-9574-24AD17B37B08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0980258-6125-44B2-9574-24AD17B37B08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0980258-6125-44B2-9574-24AD17B37B08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0980258-6125-44B2-9574-24AD17B37B08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6669F4E-43F2-4DC2-84E2-E152161E4CF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6669F4E-43F2-4DC2-84E2-E152161E4CF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6669F4E-43F2-4DC2-84E2-E152161E4CF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6669F4E-43F2-4DC2-84E2-E152161E4CF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A634456-DF81-4948-BC07-DD26AB858666}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A634456-DF81-4948-BC07-DD26AB858666}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A634456-DF81-4948-BC07-DD26AB858666}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A634456-DF81-4948-BC07-DD26AB858666}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A5C5CFAA-C76F-4652-80F5-C7B2F2D00691} = {F8AE3E07-C799-49B8-8A1B-FDB036265503}
+		{9BD1AE4A-136D-4813-8276-9079AF7E6C2E} = {07A2F6C5-A288-43AF-A3A4-4A5C968C8DF4}
+		{304307CD-2BB9-4349-A799-0A34BA5A7E81} = {07A2F6C5-A288-43AF-A3A4-4A5C968C8DF4}
+		{D0980258-6125-44B2-9574-24AD17B37B08} = {07A2F6C5-A288-43AF-A3A4-4A5C968C8DF4}
+		{F6669F4E-43F2-4DC2-84E2-E152161E4CF9} = {08553E36-8973-465E-BDA8-56DC2B129DF9}
+		{9A634456-DF81-4948-BC07-DD26AB858666} = {08553E36-8973-465E-BDA8-56DC2B129DF9}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7039B881-1F7B-4E5B-ACFE-9EE8666C0BB7}
+	EndGlobalSection
+EndGlobal
