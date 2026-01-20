@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.saravanansubramanian</groupId>
+    <artifactId>hl7-java-tutorials</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <name>HL7 Programming using Java - Tutorial Series</name>
+    <description>
+        Comprehensive tutorials demonstrating HL7 V2 message programming using the HAPI library.
+        Covers message creation, parsing, validation, sending, receiving, and advanced operations.
+    </description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <!-- HAPI 2.5 requires JDK 11+ and uses jakarta.servlet -->
+        <hapi.version>2.5</hapi.version>
+        <slf4j.version>2.0.9</slf4j.version>
+    </properties>
+
+    <modules>
+        <module>HL7 Programming using HAPI - Creating HL7 Messages</module>
+        <module>HL7 Programming using HAPI - Creating ACK Messages</module>
+        <module>HL7 Programming using HAPI - Sending HL7 Messages</module>
+        <module>HL7 Programming using HAPI - Receiving HL7 Messages</module>
+        <module>HL7 Programming using HAPI - Parsing HL7 Messages</module>
+        <module>HL7 Programming using HAPI - Message Validation</module>
+        <module>HL7 Programming using HAPI - Using Tersers</module>
+        <module>HL7 Programming using HAPI - Handling Binary Data</module>
+        <module>HL7 Programming using HAPI - Testing Conformance Profiles</module>
+        <module>HL7 Programming using HAPI - HL7 Server Example</module>
+        <module>HL7 Programming using Java - A Short Tutorial</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- HAPI Base - Core HL7 parsing and encoding -->
+            <dependency>
+                <groupId>ca.uhn.hapi</groupId>
+                <artifactId>hapi-base</artifactId>
+                <version>${hapi.version}</version>
+            </dependency>
+
+            <!-- HAPI Structures for different HL7 versions -->
+            <dependency>
+                <groupId>ca.uhn.hapi</groupId>
+                <artifactId>hapi-structures-v23</artifactId>
+                <version>${hapi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ca.uhn.hapi</groupId>
+                <artifactId>hapi-structures-v24</artifactId>
+                <version>${hapi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ca.uhn.hapi</groupId>
+                <artifactId>hapi-structures-v25</artifactId>
+                <version>${hapi.version}</version>
+            </dependency>
+
+            <!-- Logging -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- Common dependencies for all modules -->
+        <dependency>
+            <groupId>ca.uhn.hapi</groupId>
+            <artifactId>hapi-base</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ca.uhn.hapi</groupId>
+            <artifactId>hapi-structures-v24</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

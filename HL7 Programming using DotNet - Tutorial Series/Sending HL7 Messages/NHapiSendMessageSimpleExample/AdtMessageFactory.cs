@@ -1,20 +1,25 @@
-﻿using System;
 using NHapi.Base.Model;
 
-namespace HapiSendMessageSimpleExample
-{
-    public class AdtMessageFactory
-    {
-        public static IMessage CreateMessage(string messageType)
-        {
-            //This patterns enables you to build other message types 
-            if (messageType.Equals("A01"))
-            {
-                return new OurAdtA01MessageBuilder().Build();
-            }
+namespace NHapiSendMessageSimpleExample;
 
-            //if other types of ADT messages are needed, then implement your builders here
-            throw new ArgumentException($"'{messageType}' is not supported yet. Extend this if you need to");
-        }
+/// <summary>
+/// Factory class for creating ADT (Admission, Discharge, Transfer) messages.
+/// </summary>
+public static class AdtMessageFactory
+{
+    /// <summary>
+    /// Creates an ADT message based on the specified trigger event type.
+    /// </summary>
+    /// <param name="triggerEvent">The ADT trigger event code (e.g., "A01", "A08")</param>
+    /// <returns>A fully constructed HL7 ADT message</returns>
+    public static IMessage CreateMessage(string triggerEvent)
+    {
+        return triggerEvent.ToUpperInvariant() switch
+        {
+            "A01" => new AdtA01MessageBuilder().Build(),
+            _ => throw new ArgumentException(
+                $"ADT trigger event '{triggerEvent}' is not supported.",
+                nameof(triggerEvent))
+        };
     }
 }

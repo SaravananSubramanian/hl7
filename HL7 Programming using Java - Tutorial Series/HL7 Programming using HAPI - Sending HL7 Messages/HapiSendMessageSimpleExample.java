@@ -10,41 +10,58 @@ import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.model.v24.message.ADT_A01;
 import ca.uhn.hl7v2.parser.Parser;
 
+/**
+ * Demonstrates sending HL7 V2 messages over MLLP using HAPI.
+ *
+ * <p><b>Prerequisites:</b> An HL7 listener must be running on the target host/port.
+ * You can use the HL7 Server Example or any MLLP-compatible HL7 listener.
+ *
+ * <p><b>Dependencies:</b> Requires hapi-base and hapi-structures-v24 from Maven.
+ *
+ * @see AdtMessageFactory Factory for creating ADT messages
+ */
 public class HapiSendMessageSimpleExample {
 
-	private static final int PORT_NUMBER = 52463;// change this to whatever your port number is
+    // Configuration - adjust for your environment
+    private static final String HOST = "localhost";
+    private static final int PORT = 52463;
+    private static final boolean USE_TLS = false;
 
-	// In HAPI, almost all things revolve around a context object
-	private static HapiContext context = new DefaultHapiContext();
-		
-	public static void main(String[] args) throws Exception {
+    private static final HapiContext context = new DefaultHapiContext();
 
-		try {
+    public static void main(String[] args) {
+        System.out.println("=== HAPI Send Message Example ===\n");
+        System.out.println("Target: " + HOST + ":" + PORT + "\n");
 
-			// create the HL7 message
-			// this AdtMessageFactory class is not from HAPI but my own wrapper
-			// check my GitHub page or see my earlier article for reference
-			ADT_A01 adtMessage = (ADT_A01) AdtMessageFactory.createMessage("A01");
+        try {
+            // Create an ADT A01 message using our factory
+            ADT_A01 adtMessage = (ADT_A01) AdtMessageFactory.createMessage("A01");
 
-			// create a new MLLP client over the specified port
-			Connection connection = context.newClient("localhost", PORT_NUMBER, false);
+            // Establish MLLP connection to the remote HL7 listener
+            Connection connection = context.newClient(HOST, PORT, USE_TLS);
+            Initiator initiator = connection.getInitiator();
 
-			// The initiator which will be used to transmit our message
-			Initiator initiator = connection.getInitiator();
+            // Display outgoing message
+            Parser parser = context.getPipeParser();
+            System.out.println("Sending message:\n" + parser.encode(adtMessage));
 
-			// send the previously created HL7 message over the connection established
-			Parser parser = context.getPipeParser();
-			System.out.println("Sending message:" + "\n" + parser.encode(adtMessage));
-			Message response = initiator.sendAndReceive(adtMessage);
+            // Send message and receive ACK response
+            Message response = initiator.sendAndReceive(adtMessage);
 
-			// display the message response received from the remote party
-			String responseString = parser.encode(response);
-			System.out.println("Received response:\n" + responseString);
+            // Display received response
+            System.out.println("\nReceived response:\n" + parser.encode(response));
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+            // Clean up
+            connection.close();
 
-	}
-
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+            System.err.println("\nEnsure an HL7 listener is running on " + HOST + ":" + PORT);
+            e.printStackTrace();
+        } finally {
+            try {
+                context.close();
+            } catch (Exception ignored) {}
+        }
+    }
 }

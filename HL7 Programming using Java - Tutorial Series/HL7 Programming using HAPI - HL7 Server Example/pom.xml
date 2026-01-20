@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.saravanansubramanian</groupId>
+        <artifactId>hl7-java-tutorials</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>hapi-hl7-server-example</artifactId>
+    <name>HL7 Programming using HAPI - HL7 Server Example</name>
+    <description>
+        Demonstrates building an HL7 V2 server using HAPI's HL7Service with message routing.
+        Handles ADT, ORM, ORU, and other message types with appropriate acknowledgments.
+    </description>
+
+    <dependencies>
+        <!-- Additional HL7 structure versions for broader message support -->
+        <dependency>
+            <groupId>ca.uhn.hapi</groupId>
+            <artifactId>hapi-structures-v23</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ca.uhn.hapi</groupId>
+            <artifactId>hapi-structures-v25</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.saravanansubramanian.hapihl7tutorial.server.Hl7ServerMain</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

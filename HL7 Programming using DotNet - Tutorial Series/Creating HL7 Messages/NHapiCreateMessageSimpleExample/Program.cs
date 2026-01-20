@@ -1,60 +1,74 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
 using NHapi.Base.Model;
 using NHapi.Base.Parser;
 
-namespace NHapiCreateMessageSimpleExample
+namespace NHapiCreateMessageSimpleExample;
+
+/// <summary>
+/// Demonstrates how to create HL7 V2 messages using NHAPI and serialize them
+/// to both pipe-delimited and XML formats.
+/// </summary>
+public class Program
 {
-    public class Program
+    private const string OutputDirectory = @"C:\HL7TestOutputs";
+
+    public static void Main(string[] args)
     {
-        static void Main(string[] args)
+        try
         {
-            try
-            {
-                // create the HL7 message
-                // this AdtMessageFactory class is not from NHAPI but my own wrapper
-                LogToDebugConsole("Creating ADT A01 message...");
-                var adtMessage = AdtMessageFactory.CreateMessage("A01");
+            // Create an ADT A01 (Admit/Visit Notification) message using our factory
+            // The factory pattern allows easy extension to support other ADT message types
+            Console.WriteLine("Creating ADT A01 message...");
+            var adtMessage = AdtMessageFactory.CreateMessage("A01");
 
-                // create these parsers for the file encoding operations
-                var pipeParser = new PipeParser();
-                var xmlParser = new DefaultXMLParser();
+            // NHAPI provides multiple parsers for different encoding formats:
+            // - PipeParser: Traditional HL7 pipe-delimited format (most common)
+            // - DefaultXMLParser: HL7 XML encoding format
+            var pipeParser = new PipeParser();
+            var xmlParser = new DefaultXMLParser();
 
-                // print out the message that we constructed
-                LogToDebugConsole("Message was constructed successfully..." + "\n");
+            Console.WriteLine("Message constructed successfully.\n");
 
-                // serialize the message to pipe delimited output file
-                WriteMessageFile(pipeParser, adtMessage, "C:\\HL7TestOutputs", "testPipeDelimitedOutputFile.txt");
+            // Display the pipe-delimited message to console for verification
+            Console.WriteLine("=== Pipe-Delimited Format ===");
+            Console.WriteLine(pipeParser.Encode(adtMessage));
+            Console.WriteLine();
 
-                // serialize the message to XML format output file
-                WriteMessageFile(xmlParser, adtMessage, "C:\\HL7TestOutputs", "testXmlOutputFile.xml");
+            // Serialize to both formats
+            WriteMessageFile(pipeParser, adtMessage, "testPipeDelimitedOutputFile.txt");
+            WriteMessageFile(xmlParser, adtMessage, "testXmlOutputFile.xml");
 
-            }
-            catch (Exception e)
-            {
-                LogToDebugConsole($"Error occured while creating HL7 message {e.Message}");
-            }
+            Console.WriteLine("\nMessage creation and serialization completed successfully.");
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error creating HL7 message: {ex.Message}");
+            Console.Error.WriteLine(ex.StackTrace);
+        }
+    }
+
+    /// <summary>
+    /// Writes an HL7 message to a file using the specified parser encoding.
+    /// </summary>
+    /// <param name="parser">The parser to use for encoding (determines output format)</param>
+    /// <param name="hl7Message">The HL7 message to serialize</param>
+    /// <param name="outputFileName">The name of the output file</param>
+    private static void WriteMessageFile(ParserBase parser, IMessage hl7Message, string outputFileName)
+    {
+        // Ensure output directory exists
+        if (!Directory.Exists(OutputDirectory))
+        {
+            Directory.CreateDirectory(OutputDirectory);
         }
 
-        private static void WriteMessageFile(ParserBase parser, IMessage hl7Message, string outputDirectory, string outputFileName)
-        {
-            if (!Directory.Exists(outputDirectory))
-                Directory.CreateDirectory(outputDirectory);
+        var filePath = Path.Combine(OutputDirectory, outputFileName);
 
-            var fileName = Path.Combine(outputDirectory, outputFileName);
+        Console.WriteLine($"Writing message to: {filePath}");
 
-            LogToDebugConsole("Writing data to file...");
+        // Encode the message and write to file
+        // Note: Using UTF-8 encoding which is standard for HL7 V2 messages
+        var encodedMessage = parser.Encode(hl7Message);
+        File.WriteAllText(filePath, encodedMessage);
 
-            if (File.Exists(fileName))
-                File.Delete(fileName);
-            File.WriteAllText(fileName, parser.Encode(hl7Message));
-            LogToDebugConsole($"Wrote data to file {fileName} successfully...");
-        }
-
-        private static void LogToDebugConsole(string informationToLog)
-        {
-            Debug.WriteLine(informationToLog);
-        }
+        Console.WriteLine($"Successfully wrote {encodedMessage.Length} characters to {outputFileName}");
     }
 }
