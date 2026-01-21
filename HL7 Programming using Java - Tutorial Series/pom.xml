@@ -21,10 +21,13 @@
         <maven.compiler.target>17</maven.compiler.target>
         <!-- HAPI 2.5 requires JDK 11+ and uses jakarta.servlet -->
         <hapi.version>2.5</hapi.version>
+        <!-- HAPI FHIR version for FHIR R4 tutorials -->
+        <hapi.fhir.version>7.0.0</hapi.fhir.version>
         <slf4j.version>2.0.9</slf4j.version>
     </properties>
 
     <modules>
+        <!-- HL7 V2 Tutorials -->
         <module>HL7 Programming using HAPI - Creating HL7 Messages</module>
         <module>HL7 Programming using HAPI - Creating ACK Messages</module>
         <module>HL7 Programming using HAPI - Sending HL7 Messages</module>
@@ -36,6 +39,17 @@
         <module>HL7 Programming using HAPI - Testing Conformance Profiles</module>
         <module>HL7 Programming using HAPI - HL7 Server Example</module>
         <module>HL7 Programming using Java - A Short Tutorial</module>
+        <!-- FHIR R4 Tutorials -->
+        <module>FHIR Programming using Java HAPI - Setting Up Your Environment</module>
+        <module>FHIR Programming using Java HAPI - Creating FHIR Resources</module>
+        <module>FHIR Programming using Java HAPI - Reading FHIR Resources</module>
+        <module>FHIR Programming using Java HAPI - Updating FHIR Resources</module>
+        <module>FHIR Programming using Java HAPI - Deleting FHIR Resources</module>
+        <module>FHIR Programming using Java HAPI - Searching FHIR Resources</module>
+        <module>FHIR Programming using Java HAPI - Validating FHIR Resources</module>
+        <module>FHIR Programming using Java HAPI - Chaining Operations</module>
+        <module>FHIR Programming using Java HAPI - Advanced Operations</module>
+        <module>FHIR Programming using Java HAPI - SMART on FHIR</module>
     </modules>
 
     <dependencyManagement>
@@ -74,6 +88,38 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-simple</artifactId>
                 <version>${slf4j.version}</version>
+            </dependency>
+
+            <!-- HAPI FHIR Dependencies for FHIR R4 Tutorials -->
+            <dependency>
+                <groupId>ca.uhn.hapi.fhir</groupId>
+                <artifactId>hapi-fhir-base</artifactId>
+                <version>${hapi.fhir.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ca.uhn.hapi.fhir</groupId>
+                <artifactId>hapi-fhir-client</artifactId>
+                <version>${hapi.fhir.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ca.uhn.hapi.fhir</groupId>
+                <artifactId>hapi-fhir-structures-r4</artifactId>
+                <version>${hapi.fhir.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ca.uhn.hapi.fhir</groupId>
+                <artifactId>hapi-fhir-validation</artifactId>
+                <version>${hapi.fhir.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ca.uhn.hapi.fhir</groupId>
+                <artifactId>hapi-fhir-validation-resources-r4</artifactId>
+                <version>${hapi.fhir.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ca.uhn.hapi.fhir</groupId>
+                <artifactId>hapi-fhir-caching-caffeine</artifactId>
+                <version>${hapi.fhir.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

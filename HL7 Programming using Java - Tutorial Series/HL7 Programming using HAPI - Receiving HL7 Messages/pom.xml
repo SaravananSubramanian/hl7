@@ -17,6 +17,14 @@
         Shows message routing, error handling, and acknowledgment generation.
     </description>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.saravanansubramanian</groupId>
+            <artifactId>hapi-creating-messages</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <sourceDirectory>.</sourceDirectory>
         <plugins>

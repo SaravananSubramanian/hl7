@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
-namespace SimpleMllpHl7ClientAdvanced
+namespace Com.SaravananSubramanian.Hl7.SimpleMllpHl7ClientAdvanced
 {
     public class Program
     {

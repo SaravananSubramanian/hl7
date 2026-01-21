@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
-namespace MultiThreadedTcpEchoServer
+namespace Com.SaravananSubramanian.Hl7.MultiThreadedTcpEchoServer
 {
     public class Program
     {

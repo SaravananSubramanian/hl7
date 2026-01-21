@@ -2,7 +2,7 @@
 using NHapi.Base.Parser;
 using NHapiTools.Base.Validation;
 
-namespace NhapiToolsAutomatedContextValidationOfHl7Messages
+namespace Com.SaravananSubramanian.Nhapi.AdvancedValidation.AutomatedContextDemo
 {
     public class Program
     {

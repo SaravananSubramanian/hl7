@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
-namespace SimpleTcpEchoClient
+namespace Com.SaravananSubramanian.Hl7.SimpleTcpEchoClient
 {
     public class Program
     {

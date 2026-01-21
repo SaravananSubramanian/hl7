@@ -10,17 +10,18 @@ import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.protocol.ReceivingApplication;
 import ca.uhn.hl7v2.protocol.ReceivingApplicationException;
 
+@SuppressWarnings("rawtypes")
 public class OurSimpleApplication implements ReceivingApplication {
 
 	private static HapiContext context = new DefaultHapiContext();
-	
+
 	@Override
 	public boolean canProcess(Message message) {
 		return true;
 	}
 
 	@Override
-	public Message processMessage(Message receivedMessage, Map<String, Object> metaData)
+	public Message processMessage(Message receivedMessage, Map metaData)
 			throws ReceivingApplicationException, HL7Exception {
 		
 		String receivedEncodedMessage = context.getPipeParser().encode(receivedMessage);

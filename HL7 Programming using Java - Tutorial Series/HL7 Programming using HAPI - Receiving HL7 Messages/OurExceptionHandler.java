@@ -5,11 +5,11 @@ import java.util.Map;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.protocol.ReceivingApplicationExceptionHandler;
 
+@SuppressWarnings("rawtypes")
 public class OurExceptionHandler implements ReceivingApplicationExceptionHandler {
 
 	@Override
-	public String processException(String theIncomingMessage, Map<String, Object> theIncomingMetadata, String theOutgoingNegativeAcknowledgementMessage, Exception theException)
-            throws HL7Exception {
+	public String processException(String theIncomingMessage, Map theIncomingMetadata, String theOutgoingNegativeAcknowledgementMessage, Exception theException) {
         
         System.out.println("The error message was:" + theException.getMessage() + "\n");
         

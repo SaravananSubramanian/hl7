@@ -16,6 +16,14 @@
         Demonstrates sending HL7 V2 messages over MLLP using HAPI's network capabilities.
     </description>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.saravanansubramanian</groupId>
+            <artifactId>hapi-creating-messages</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <sourceDirectory>.</sourceDirectory>
         <plugins>

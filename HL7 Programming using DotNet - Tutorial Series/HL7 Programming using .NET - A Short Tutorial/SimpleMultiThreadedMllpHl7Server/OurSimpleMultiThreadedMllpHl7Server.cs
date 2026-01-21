@@ -4,7 +4,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace SimpleMultiThreadedMllpHl7Server
+namespace Com.SaravananSubramanian.Hl7.SimpleMultiThreadedMllpHl7Server
 {
     class OurSimpleMultiThreadedMllpHl7Server
     {

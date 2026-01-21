@@ -66,6 +66,7 @@ public class BasicListenerWithExceptionHandler {
 
 }
 
+@SuppressWarnings("rawtypes")
 class SomeErrorThrowingApplication implements ReceivingApplication {
 
 	@Override
@@ -74,7 +75,7 @@ class SomeErrorThrowingApplication implements ReceivingApplication {
 	}
 
 	@Override
-	public Message processMessage(Message incomingMessage, Map<String, Object> messageMetaData)
+	public Message processMessage(Message incomingMessage, Map messageMetaData)
 			throws ReceivingApplicationException, HL7Exception {
 		System.out.println("Received incoming message:\n" + incomingMessage);
 		

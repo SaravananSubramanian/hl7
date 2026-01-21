@@ -17,6 +17,14 @@
         Shows Base64 encoding/decoding in OBX segments.
     </description>
 
+    <dependencies>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.16.0</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <sourceDirectory>.</sourceDirectory>
         <plugins>

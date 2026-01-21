@@ -2,7 +2,7 @@
 using NHapi.Base.validation;
 using NHapiTools.Base.Validation;
 
-namespace NhapiToolsAutomatedContextValidationOfHl7Messages.Our_Custom_Rules
+namespace Com.SaravananSubramanian.Nhapi.AdvancedValidation.AutomatedContextDemo.CustomRules
 {
     public class Hl7Ver23AdtA01MessageMustHaveEvn4DataRule : ISpecificMessageRule
     {

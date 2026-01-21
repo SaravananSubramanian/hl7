@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SimpleMultiThreadedMllpHl7Server
+namespace Com.SaravananSubramanian.Hl7.SimpleMultiThreadedMllpHl7Server
 {
     public class Program
     {

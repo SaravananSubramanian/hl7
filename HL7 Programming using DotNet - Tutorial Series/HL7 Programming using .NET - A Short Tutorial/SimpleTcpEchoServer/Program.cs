@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 
-namespace SimpleTcpEchoServer
+namespace Com.SaravananSubramanian.Hl7.SimpleTcpEchoServer
 {
     public class Program
     {

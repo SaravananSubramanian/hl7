@@ -17,6 +17,13 @@
         Shows profile-based validation and constraint checking.
     </description>
 
+    <dependencies>
+        <dependency>
+            <groupId>ca.uhn.hapi</groupId>
+            <artifactId>hapi-structures-v23</artifactId>
+        </dependency>
+    </dependencies>
+
     <build>
         <sourceDirectory>.</sourceDirectory>
         <plugins>
