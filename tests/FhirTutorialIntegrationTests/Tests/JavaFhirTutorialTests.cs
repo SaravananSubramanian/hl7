@@ -134,7 +134,7 @@ public class JavaFhirTutorialTests : IAsyncLifetime
         // Verify all expected tutorials are configured
         var tutorials = _settings.Java.Tutorials;
 
-        tutorials.Should().HaveCount(10, "All 10 Java FHIR tutorials should be configured");
+        tutorials.Should().HaveCount(11, "All 11 Java FHIR tutorials should be configured");
 
         var expectedNames = new[]
         {
@@ -147,7 +147,8 @@ public class JavaFhirTutorialTests : IAsyncLifetime
             "Validating FHIR Resources",
             "Chaining Operations",
             "Advanced Operations",
-            "SMART on FHIR"
+            "SMART on FHIR",
+            "Canadian FHIR Profiles"
         };
 
         foreach (var name in expectedNames)

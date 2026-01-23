@@ -50,6 +50,7 @@
         <module>FHIR Programming using Java HAPI - Chaining Operations</module>
         <module>FHIR Programming using Java HAPI - Advanced Operations</module>
         <module>FHIR Programming using Java HAPI - SMART on FHIR</module>
+        <module>FHIR Programming using Java HAPI - Canadian FHIR Profiles</module>
     </modules>
 
     <dependencyManagement>

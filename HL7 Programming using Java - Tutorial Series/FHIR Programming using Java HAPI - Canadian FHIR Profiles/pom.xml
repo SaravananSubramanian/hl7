@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.saravanansubramanian</groupId>
+        <artifactId>hl7-java-tutorials</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>fhir-canadian-profiles</artifactId>
+    <name>FHIR Programming - Canadian FHIR Profiles</name>
+    <description>
+        Demonstrates how to work with Canadian national FHIR profiles using Java and the HAPI FHIR library.
+        Covers CA Core profiles, provincial health identifiers, and Canadian-specific extensions.
+    </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>ca.uhn.hapi.fhir</groupId>
+            <artifactId>hapi-fhir-base</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ca.uhn.hapi.fhir</groupId>
+            <artifactId>hapi-fhir-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ca.uhn.hapi.fhir</groupId>
+            <artifactId>hapi-fhir-structures-r4</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ca.uhn.hapi.fhir</groupId>
+            <artifactId>hapi-fhir-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ca.uhn.hapi.fhir</groupId>
+            <artifactId>hapi-fhir-validation-resources-r4</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ca.uhn.hapi.fhir</groupId>
+            <artifactId>hapi-fhir-caching-caffeine</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <sourceDirectory>.</sourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.saravanansubramanian.fhir.FhirCanadianProfiles</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

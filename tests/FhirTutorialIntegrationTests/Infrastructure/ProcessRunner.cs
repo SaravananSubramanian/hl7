@@ -85,9 +85,12 @@ public class ProcessRunner
         var timeoutMs = (config.TimeoutSeconds > 0 ? config.TimeoutSeconds : _settings.DefaultTimeoutSeconds) * 1000;
         var mainClass = config.MainClass ?? throw new InvalidOperationException($"MainClass not specified for Java tutorial: {config.Name}");
 
+        // Use exec:exec instead of exec:java to avoid classloader conflicts with Java's module system.
+        // exec:exec spawns a separate JVM process, which avoids issues with classes like
+        // javax.xml.namespace.QName being loaded by both the bootstrap classloader and Maven's classloader.
         return await ExecuteProcessAsync(
             mavenCmd,
-            $"compile exec:java -Dexec.mainClass=\"{mainClass}\" -q",
+            $"compile exec:exec -Dexec.executable=java -Dexec.args=\"-cp %classpath {mainClass}\" -q",
             workingDir,
             config.Name,
             timeoutMs,
