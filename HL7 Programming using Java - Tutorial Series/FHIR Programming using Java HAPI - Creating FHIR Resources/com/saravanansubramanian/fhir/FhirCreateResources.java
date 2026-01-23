@@ -5,7 +5,9 @@ import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.hl7.fhir.r4.model.*;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -48,9 +50,9 @@ public class FhirCreateResources {
             // Set gender
             patient.setGender(Enumerations.AdministrativeGender.MALE);
 
-            // Set birth date
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            patient.setBirthDate(sdf.parse("1980-01-01"));
+            // Set birth date using java.time (thread-safe)
+            LocalDate birthDate = LocalDate.parse("1980-01-01", DateTimeFormatter.ISO_LOCAL_DATE);
+            patient.setBirthDate(Date.from(birthDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
             // Set active status
             patient.setActive(true);
@@ -81,7 +83,7 @@ public class FhirCreateResources {
                     String.join(" ", patient.getNameFirstRep().getGiven().stream()
                             .map(StringType::getValue).toList()));
             System.out.println("  Gender: " + patient.getGender());
-            System.out.println("  Birth Date: " + sdf.format(patient.getBirthDate()));
+            System.out.println("  Birth Date: " + birthDate);
             System.out.println();
 
             // Step 2: Send the Patient to the FHIR server
@@ -89,6 +91,12 @@ public class FhirCreateResources {
             MethodOutcome outcome = client.create()
                     .resource(patient)
                     .execute();
+
+            // Check if the outcome has an ID before accessing it
+            if (outcome.getId() == null) {
+                System.err.println("Error: Failed to create patient - no ID returned from server.");
+                return;
+            }
 
             String patientId = outcome.getId().getIdPart();
             System.out.println();
@@ -107,9 +115,14 @@ public class FhirCreateResources {
             System.out.println();
             System.out.println("Retrieved Patient:");
             System.out.println("  ID: " + retrievedPatient.getId());
-            System.out.println("  Name: " + retrievedPatient.getNameFirstRep().getFamily() + ", " +
-                    String.join(" ", retrievedPatient.getNameFirstRep().getGiven().stream()
-                            .map(StringType::getValue).toList()));
+
+            if (retrievedPatient.hasName() && !retrievedPatient.getName().isEmpty()) {
+                var name = retrievedPatient.getNameFirstRep();
+                System.out.println("  Name: " + name.getFamily() + ", " +
+                        String.join(" ", name.getGiven().stream()
+                                .map(StringType::getValue).toList()));
+            }
+
             System.out.println("  Gender: " + retrievedPatient.getGender());
             System.out.println("  Active: " + retrievedPatient.getActive());
 

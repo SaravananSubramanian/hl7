@@ -35,32 +35,42 @@ public class FhirChainingOperations {
                     .execute();
 
             if (patientSearch.hasEntry() && !patientSearch.getEntry().isEmpty()) {
-                Patient patient = (Patient) patientSearch.getEntry().get(0).getResource();
-                String patientId = patient.getIdElement().getIdPart();
+                Resource firstResource = patientSearch.getEntry().get(0).getResource();
 
-                System.out.println("Using Patient ID: " + patientId);
-                System.out.println();
+                // Safe type check using instanceof with pattern matching
+                if (firstResource instanceof Patient patient) {
+                    String patientId = patient.getIdElement().getIdPart();
 
-                // Search for Observations linked to this Patient
-                Bundle observations = client.search()
-                        .forResource(Observation.class)
-                        .where(Observation.SUBJECT.hasId("Patient/" + patientId))
-                        .count(5)
-                        .returnBundle(Bundle.class)
-                        .execute();
+                    System.out.println("Using Patient ID: " + patientId);
+                    System.out.println();
 
-                System.out.println("Found " + observations.getTotal() + " Observations for this patient:");
+                    // Search for Observations linked to this Patient
+                    Bundle observations = client.search()
+                            .forResource(Observation.class)
+                            .where(Observation.SUBJECT.hasId("Patient/" + patientId))
+                            .count(5)
+                            .returnBundle(Bundle.class)
+                            .execute();
 
-                for (Bundle.BundleEntryComponent entry : observations.getEntry()) {
-                    Observation obs = (Observation) entry.getResource();
-                    System.out.println("  - Observation ID: " + obs.getIdElement().getIdPart() +
-                            ", Status: " + obs.getStatus());
+                    System.out.println("Found " + observations.getTotal() + " Observations for this patient:");
 
-                    if (obs.hasCode() && obs.getCode().hasCoding()) {
-                        Coding coding = obs.getCode().getCodingFirstRep();
-                        System.out.println("    Code: " +
-                                (coding.hasDisplay() ? coding.getDisplay() : coding.getCode()));
+                    for (Bundle.BundleEntryComponent entry : observations.getEntry()) {
+                        Resource resource = entry.getResource();
+
+                        // Safe type check using instanceof with pattern matching
+                        if (resource instanceof Observation obs) {
+                            System.out.println("  - Observation ID: " + obs.getIdElement().getIdPart() +
+                                    ", Status: " + obs.getStatus());
+
+                            if (obs.hasCode() && obs.getCode().hasCoding()) {
+                                Coding coding = obs.getCode().getCodingFirstRep();
+                                System.out.println("    Code: " +
+                                        (coding.hasDisplay() ? coding.getDisplay() : coding.getCode()));
+                            }
+                        }
                     }
+                } else {
+                    System.out.println("Unexpected resource type returned.");
                 }
             } else {
                 System.out.println("No patients found on the server.");
@@ -83,9 +93,13 @@ public class FhirChainingOperations {
             System.out.println("Found " + encounters.getTotal() + " Encounters for patients named Smith:");
 
             for (Bundle.BundleEntryComponent entry : encounters.getEntry()) {
-                Encounter encounter = (Encounter) entry.getResource();
-                System.out.println("  - Encounter ID: " + encounter.getIdElement().getIdPart() +
-                        ", Status: " + encounter.getStatus());
+                Resource resource = entry.getResource();
+
+                // Safe type check using instanceof with pattern matching
+                if (resource instanceof Encounter encounter) {
+                    System.out.println("  - Encounter ID: " + encounter.getIdElement().getIdPart() +
+                            ", Status: " + encounter.getStatus());
+                }
             }
 
             System.out.println();
@@ -105,12 +119,19 @@ public class FhirChainingOperations {
             int maxPages = 3; // Limit for demo purposes
 
             while (resultSet != null && pageNum <= maxPages) {
-                System.out.println("Page " + pageNum + ": " + resultSet.getEntry().size() + " results");
+                int entryCount = resultSet.hasEntry() ? resultSet.getEntry().size() : 0;
+                System.out.println("Page " + pageNum + ": " + entryCount + " results");
 
-                for (Bundle.BundleEntryComponent entry : resultSet.getEntry()) {
-                    Observation obs = (Observation) entry.getResource();
-                    System.out.println("  - " + obs.getIdElement().getIdPart() + ": " + obs.getStatus());
-                    totalProcessed++;
+                if (resultSet.hasEntry()) {
+                    for (Bundle.BundleEntryComponent entry : resultSet.getEntry()) {
+                        Resource resource = entry.getResource();
+
+                        // Safe type check using instanceof with pattern matching
+                        if (resource instanceof Observation obs) {
+                            System.out.println("  - " + obs.getIdElement().getIdPart() + ": " + obs.getStatus());
+                            totalProcessed++;
+                        }
+                    }
                 }
 
                 // Get the next page
@@ -139,11 +160,16 @@ public class FhirChainingOperations {
                     .returnBundle(Bundle.class)
                     .execute();
 
-            System.out.println("Found " + includeSearch.getEntry().size() + " resources (including related):");
+            int includeEntryCount = includeSearch.hasEntry() ? includeSearch.getEntry().size() : 0;
+            System.out.println("Found " + includeEntryCount + " resources (including related):");
 
-            for (Bundle.BundleEntryComponent entry : includeSearch.getEntry()) {
-                Resource resource = entry.getResource();
-                System.out.println("  - " + resource.fhirType() + "/" + resource.getIdElement().getIdPart());
+            if (includeSearch.hasEntry()) {
+                for (Bundle.BundleEntryComponent entry : includeSearch.getEntry()) {
+                    Resource resource = entry.getResource();
+                    if (resource != null) {
+                        System.out.println("  - " + resource.fhirType() + "/" + resource.getIdElement().getIdPart());
+                    }
+                }
             }
 
             System.out.println();

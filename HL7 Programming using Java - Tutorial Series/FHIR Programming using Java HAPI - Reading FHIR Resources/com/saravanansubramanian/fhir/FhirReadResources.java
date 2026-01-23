@@ -5,6 +5,7 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.server.exceptions.ResourceNotFoundException;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Patient;
+import org.hl7.fhir.r4.model.Resource;
 import org.hl7.fhir.r4.model.StringType;
 
 /**
@@ -38,34 +39,40 @@ public class FhirReadResources {
                     .execute();
 
             if (searchResult.hasEntry() && !searchResult.getEntry().isEmpty()) {
-                Patient firstPatient = (Patient) searchResult.getEntry().get(0).getResource();
-                String patientId = firstPatient.getIdElement().getIdPart();
+                Resource resource = searchResult.getEntry().get(0).getResource();
 
-                System.out.println("Found patient ID: " + patientId);
-                System.out.println();
+                // Safe type check using instanceof
+                if (resource instanceof Patient firstPatient) {
+                    String patientId = firstPatient.getIdElement().getIdPart();
 
-                // Step 2: Read the specific patient by ID
-                System.out.println("Step 2: Reading Patient by ID...");
-                System.out.println("--------------------------------");
+                    System.out.println("Found patient ID: " + patientId);
+                    System.out.println();
 
-                Patient patient = client.read()
-                        .resource(Patient.class)
-                        .withId(patientId)
-                        .execute();
+                    // Step 2: Read the specific patient by ID
+                    System.out.println("Step 2: Reading Patient by ID...");
+                    System.out.println("--------------------------------");
 
-                System.out.println("Patient Details:");
-                System.out.println("  ID: " + patient.getId());
+                    Patient patient = client.read()
+                            .resource(Patient.class)
+                            .withId(patientId)
+                            .execute();
 
-                if (patient.hasName() && !patient.getName().isEmpty()) {
-                    var name = patient.getNameFirstRep();
-                    System.out.println("  Name: " + name.getFamily() + ", " +
-                            String.join(" ", name.getGiven().stream()
-                                    .map(StringType::getValue).toList()));
+                    System.out.println("Patient Details:");
+                    System.out.println("  ID: " + patient.getId());
+
+                    if (patient.hasName() && !patient.getName().isEmpty()) {
+                        var name = patient.getNameFirstRep();
+                        System.out.println("  Name: " + name.getFamily() + ", " +
+                                String.join(" ", name.getGiven().stream()
+                                        .map(StringType::getValue).toList()));
+                    }
+
+                    System.out.println("  Gender: " + patient.getGender());
+                    System.out.println("  Birth Date: " + patient.getBirthDate());
+                    System.out.println("  Active: " + patient.getActive());
+                } else {
+                    System.out.println("Unexpected resource type returned.");
                 }
-
-                System.out.println("  Gender: " + patient.getGender());
-                System.out.println("  Birth Date: " + patient.getBirthDate());
-                System.out.println("  Active: " + patient.getActive());
 
             } else {
                 System.out.println("No patients found on the server.");
@@ -87,15 +94,19 @@ public class FhirReadResources {
             System.out.println("Found " + smithPatients.getTotal() + " patient(s) with family name 'Smith':");
 
             for (Bundle.BundleEntryComponent entry : smithPatients.getEntry()) {
-                Patient patient = (Patient) entry.getResource();
-                if (patient.hasName() && !patient.getName().isEmpty()) {
-                    var name = patient.getNameFirstRep();
-                    System.out.println("  - " + name.getFamily() + ", " +
-                            String.join(" ", name.getGiven().stream()
-                                    .map(StringType::getValue).toList()) +
-                            " (ID: " + patient.getIdElement().getIdPart() + ")");
-                } else {
-                    System.out.println("  - (No name) ID: " + patient.getIdElement().getIdPart());
+                Resource entryResource = entry.getResource();
+
+                // Safe type check using instanceof with pattern matching
+                if (entryResource instanceof Patient patient) {
+                    if (patient.hasName() && !patient.getName().isEmpty()) {
+                        var name = patient.getNameFirstRep();
+                        System.out.println("  - " + name.getFamily() + ", " +
+                                String.join(" ", name.getGiven().stream()
+                                        .map(StringType::getValue).toList()) +
+                                " (ID: " + patient.getIdElement().getIdPart() + ")");
+                    } else {
+                        System.out.println("  - (No name) ID: " + patient.getIdElement().getIdPart());
+                    }
                 }
             }
 

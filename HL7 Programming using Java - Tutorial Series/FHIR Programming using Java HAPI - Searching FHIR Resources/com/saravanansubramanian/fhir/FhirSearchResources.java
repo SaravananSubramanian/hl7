@@ -80,7 +80,8 @@ public class FhirSearchResources {
                     .returnBundle(Bundle.class)
                     .execute();
 
-            System.out.println("Page 1: Showing " + paginatedResult.getEntry().size() +
+            int entryCount = paginatedResult.hasEntry() ? paginatedResult.getEntry().size() : 0;
+            System.out.println("Page 1: Showing " + entryCount +
                     " of " + paginatedResult.getTotal() + " total patients");
             printPatients(paginatedResult);
 
@@ -93,7 +94,8 @@ public class FhirSearchResources {
                         .next(paginatedResult)
                         .execute();
 
-                System.out.println("Page 2: Showing " + nextPage.getEntry().size() + " patients");
+                int nextEntryCount = nextPage.hasEntry() ? nextPage.getEntry().size() : 0;
+                System.out.println("Page 2: Showing " + nextEntryCount + " patients");
                 printPatients(nextPage);
             }
 
@@ -113,12 +115,16 @@ public class FhirSearchResources {
             System.out.println("Found " + observations.getTotal() + " heart rate observations:");
 
             for (Bundle.BundleEntryComponent entry : observations.getEntry()) {
-                Observation obs = (Observation) entry.getResource();
-                System.out.println("  - ID: " + obs.getIdElement().getIdPart() + ", Status: " + obs.getStatus());
+                Resource resource = entry.getResource();
 
-                if (obs.hasValueQuantity()) {
-                    Quantity value = obs.getValueQuantity();
-                    System.out.println("    Value: " + value.getValue() + " " + value.getUnit());
+                // Safe type check using instanceof with pattern matching
+                if (resource instanceof Observation obs) {
+                    System.out.println("  - ID: " + obs.getIdElement().getIdPart() + ", Status: " + obs.getStatus());
+
+                    if (obs.hasValueQuantity()) {
+                        Quantity value = obs.getValueQuantity();
+                        System.out.println("    Value: " + value.getValue() + " " + value.getUnit());
+                    }
                 }
             }
 
@@ -132,21 +138,29 @@ public class FhirSearchResources {
     }
 
     private static void printPatients(Bundle bundle) {
+        if (!bundle.hasEntry()) {
+            return;
+        }
+
         for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
-            Patient patient = (Patient) entry.getResource();
-            String name = "Unknown";
+            Resource resource = entry.getResource();
 
-            if (patient.hasName() && !patient.getName().isEmpty()) {
-                HumanName humanName = patient.getNameFirstRep();
-                name = humanName.getFamily() + ", " +
-                        String.join(" ", humanName.getGiven().stream()
-                                .map(StringType::getValue).toList());
+            // Safe type check using instanceof with pattern matching
+            if (resource instanceof Patient patient) {
+                String name = "Unknown";
+
+                if (patient.hasName() && !patient.getName().isEmpty()) {
+                    HumanName humanName = patient.getNameFirstRep();
+                    name = humanName.getFamily() + ", " +
+                            String.join(" ", humanName.getGiven().stream()
+                                    .map(StringType::getValue).toList());
+                }
+
+                System.out.println("  - " + name +
+                        " (ID: " + patient.getIdElement().getIdPart() +
+                        ", Gender: " + patient.getGender() +
+                        ", DOB: " + (patient.hasBirthDate() ? patient.getBirthDate() : "N/A") + ")");
             }
-
-            System.out.println("  - " + name +
-                    " (ID: " + patient.getIdElement().getIdPart() +
-                    ", Gender: " + patient.getGender() +
-                    ", DOB: " + (patient.hasBirthDate() ? patient.getBirthDate() : "N/A") + ")");
         }
     }
 }
