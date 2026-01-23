@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 
@@ -11,7 +12,7 @@ namespace Com.SaravananSubramanian.Fhir.UpdateResources
     /// </summary>
     class Program
     {
-        static void Main(string[] args)
+        static async System.Threading.Tasks.Task Main(string[] args)
         {
             // Replace with your FHIR server base URL
             string fhirServerUrl = "http://hapi.fhir.org/baseR4";
@@ -25,7 +26,7 @@ namespace Com.SaravananSubramanian.Fhir.UpdateResources
                 var settings = new FhirClientSettings
                 {
                     PreferredFormat = ResourceFormat.Json,
-                    PreferredReturn = Prefer.ReturnRepresentation
+                    ReturnPreference = ReturnPreference.Representation
                 };
 
                 var fhirClient = new FhirClient(fhirServerUrl, settings);
@@ -49,9 +50,15 @@ namespace Com.SaravananSubramanian.Fhir.UpdateResources
                     Active = true
                 };
 
-                var createdPatient = fhirClient.Create(patient);
+                var createdPatient = await fhirClient.CreateAsync(patient);
+                if (createdPatient?.Name == null || createdPatient.Name.Count == 0)
+                {
+                    Console.WriteLine("Error: Failed to create patient.");
+                    return;
+                }
+
                 Console.WriteLine($"Patient created with ID: {createdPatient.Id}");
-                Console.WriteLine($"Original Name: {createdPatient.Name[0].Family}, {string.Join(" ", createdPatient.Name[0].Given)}");
+                Console.WriteLine($"Original Name: {createdPatient.Name[0].Family}, {string.Join(" ", createdPatient.Name[0].Given ?? new List<string>())}");
                 Console.WriteLine();
 
                 // Step 2: Update the patient's family name
@@ -59,10 +66,16 @@ namespace Com.SaravananSubramanian.Fhir.UpdateResources
                 Console.WriteLine("-------------------------------------------");
 
                 createdPatient.Name[0].Family = "UpdatedLastName";
-                var updatedPatient = fhirClient.Update(createdPatient);
+                var updatedPatient = await fhirClient.UpdateAsync(createdPatient);
+
+                if (updatedPatient?.Name == null || updatedPatient.Name.Count == 0)
+                {
+                    Console.WriteLine("Error: Failed to update patient.");
+                    return;
+                }
 
                 Console.WriteLine($"Patient updated successfully!");
-                Console.WriteLine($"Updated Name: {updatedPatient.Name[0].Family}, {string.Join(" ", updatedPatient.Name[0].Given)}");
+                Console.WriteLine($"Updated Name: {updatedPatient.Name[0].Family}, {string.Join(" ", updatedPatient.Name[0].Given ?? new List<string>())}");
                 Console.WriteLine();
 
                 // Step 3: Add contact information
@@ -79,13 +92,22 @@ namespace Com.SaravananSubramanian.Fhir.UpdateResources
                     }
                 };
 
-                var patientWithContact = fhirClient.Update(updatedPatient);
-                Console.WriteLine($"Contact added: {patientWithContact.Telecom[0].Value}");
+                var patientWithContact = await fhirClient.UpdateAsync(updatedPatient);
+                if (patientWithContact?.Telecom?.Count > 0)
+                {
+                    Console.WriteLine($"Contact added: {patientWithContact.Telecom[0].Value}");
+                }
                 Console.WriteLine();
 
                 // Step 4: Demonstrate conditional update
                 Console.WriteLine("Step 4: Conditional Update (by identifier)");
                 Console.WriteLine("------------------------------------------");
+
+                if (patientWithContact == null)
+                {
+                    Console.WriteLine("Error: Patient with contact is null.");
+                    return;
+                }
 
                 // Add an identifier to the patient
                 patientWithContact.Identifier = new List<Identifier>
@@ -93,18 +115,27 @@ namespace Com.SaravananSubramanian.Fhir.UpdateResources
                     new Identifier("http://example.org/mrn", "UPDATE-TEST-" + Guid.NewGuid().ToString().Substring(0, 8))
                 };
 
-                var patientWithIdentifier = fhirClient.Update(patientWithContact);
-                Console.WriteLine($"Added identifier: {patientWithIdentifier.Identifier[0].Value}");
+                var patientWithIdentifier = await fhirClient.UpdateAsync(patientWithContact);
+                if (patientWithIdentifier?.Identifier?.Count > 0)
+                {
+                    Console.WriteLine($"Added identifier: {patientWithIdentifier.Identifier[0].Value}");
 
-                // Now do a conditional update using the identifier
-                patientWithIdentifier.Name[0].Family = "ConditionallyUpdatedName";
+                    // Now do a conditional update using the identifier
+                    if (patientWithIdentifier.Name?.Count > 0)
+                    {
+                        patientWithIdentifier.Name[0].Family = "ConditionallyUpdatedName";
 
-                var conditionalResult = fhirClient.Update(
-                    patientWithIdentifier,
-                    new SearchParams().Where($"identifier={patientWithIdentifier.Identifier[0].System}|{patientWithIdentifier.Identifier[0].Value}"));
+                        var conditionalResult = await fhirClient.UpdateAsync(
+                            patientWithIdentifier,
+                            new SearchParams().Where($"identifier={patientWithIdentifier.Identifier[0].System}|{patientWithIdentifier.Identifier[0].Value}"));
 
-                Console.WriteLine($"Conditional update completed!");
-                Console.WriteLine($"Final Name: {conditionalResult.Name[0].Family}");
+                        Console.WriteLine($"Conditional update completed!");
+                        if (conditionalResult?.Name?.Count > 0)
+                        {
+                            Console.WriteLine($"Final Name: {conditionalResult.Name[0].Family}");
+                        }
+                    }
+                }
                 Console.WriteLine();
 
                 // Step 5: Handling update conflicts

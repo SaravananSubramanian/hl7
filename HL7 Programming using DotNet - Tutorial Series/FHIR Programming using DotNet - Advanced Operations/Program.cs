@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 
@@ -11,7 +12,7 @@ namespace Com.SaravananSubramanian.Fhir.AdvancedOperations
     /// </summary>
     class Program
     {
-        static void Main(string[] args)
+        static async System.Threading.Tasks.Task Main(string[] args)
         {
             // Replace with your FHIR server base URL
             string fhirServerUrl = "http://hapi.fhir.org/baseR4";
@@ -25,7 +26,7 @@ namespace Com.SaravananSubramanian.Fhir.AdvancedOperations
                 var settings = new FhirClientSettings
                 {
                     PreferredFormat = ResourceFormat.Json,
-                    PreferredReturn = Prefer.ReturnRepresentation
+                    ReturnPreference = ReturnPreference.Representation
                 };
 
                 var fhirClient = new FhirClient(fhirServerUrl, settings);
@@ -91,12 +92,18 @@ namespace Com.SaravananSubramanian.Fhir.AdvancedOperations
 
                 Console.WriteLine($"Executing transaction with {transactionBundle.Entry.Count} entries...");
 
-                var transactionResponse = fhirClient.Transaction(transactionBundle);
+                var transactionResponse = await fhirClient.TransactionAsync(transactionBundle);
+
+                if (transactionResponse == null)
+                {
+                    Console.WriteLine("Error: Transaction failed - no response received.");
+                    return;
+                }
 
                 Console.WriteLine("Transaction completed successfully!");
-                Console.WriteLine($"Response contains {transactionResponse.Entry.Count} entries:");
+                Console.WriteLine($"Response contains {transactionResponse.Entry?.Count ?? 0} entries:");
 
-                foreach (var entry in transactionResponse.Entry)
+                foreach (var entry in transactionResponse.Entry ?? new List<Bundle.EntryComponent>())
                 {
                     if (entry.Response != null)
                     {
@@ -106,44 +113,8 @@ namespace Com.SaravananSubramanian.Fhir.AdvancedOperations
 
                 Console.WriteLine();
 
-                // Step 2: Creating Audit Events
-                Console.WriteLine("Step 2: Creating Audit Events");
-                Console.WriteLine("-----------------------------");
-
-                var auditEvent = new AuditEvent
-                {
-                    Type = new Coding("http://terminology.hl7.org/CodeSystem/audit-event-type", "rest", "RESTful Operation"),
-                    Action = AuditEvent.AuditEventAction.C,
-                    Outcome = AuditEvent.AuditEventOutcome.N0,
-                    Recorded = DateTimeOffset.Now,
-                    Agent = new List<AuditEvent.AgentComponent>
-                    {
-                        new AuditEvent.AgentComponent
-                        {
-                            Who = new ResourceReference("Practitioner/example"),
-                            Requestor = true
-                        }
-                    },
-                    Source = new AuditEvent.SourceComponent
-                    {
-                        Observer = new ResourceReference("Device/software-system")
-                    },
-                    Entity = new List<AuditEvent.EntityComponent>
-                    {
-                        new AuditEvent.EntityComponent
-                        {
-                            What = new ResourceReference("Patient/example"),
-                            Type = new Coding("http://terminology.hl7.org/CodeSystem/audit-entity-type", "1", "Person")
-                        }
-                    }
-                };
-
-                var createdAuditEvent = fhirClient.Create(auditEvent);
-                Console.WriteLine($"AuditEvent created with ID: {createdAuditEvent.Id}");
-                Console.WriteLine();
-
-                // Step 3: Batch Operations (non-transactional)
-                Console.WriteLine("Step 3: Batch Operations (Non-Transactional)");
+                // Step 2: Batch Operations (non-transactional)
+                Console.WriteLine("Step 2: Batch Operations (Non-Transactional)");
                 Console.WriteLine("--------------------------------------------");
 
                 var batchBundle = new Bundle
@@ -172,12 +143,18 @@ namespace Com.SaravananSubramanian.Fhir.AdvancedOperations
 
                 Console.WriteLine($"Executing batch with {batchBundle.Entry.Count} requests...");
 
-                var batchResponse = fhirClient.Transaction(batchBundle);
+                var batchResponse = await fhirClient.TransactionAsync(batchBundle);
+
+                if (batchResponse == null)
+                {
+                    Console.WriteLine("Error: Batch failed - no response received.");
+                    return;
+                }
 
                 Console.WriteLine("Batch completed!");
-                Console.WriteLine($"Response contains {batchResponse.Entry.Count} entries");
+                Console.WriteLine($"Response contains {batchResponse.Entry?.Count ?? 0} entries");
 
-                foreach (var entry in batchResponse.Entry)
+                foreach (var entry in batchResponse.Entry ?? new List<Bundle.EntryComponent>())
                 {
                     if (entry.Response != null)
                     {
@@ -186,27 +163,26 @@ namespace Com.SaravananSubramanian.Fhir.AdvancedOperations
 
                     if (entry.Resource is Bundle searchBundle)
                     {
-                        Console.WriteLine($"    Search returned {searchBundle.Total} results");
+                        Console.WriteLine($"    Search returned {searchBundle.Total ?? 0} results");
                     }
                 }
 
                 Console.WriteLine();
 
-                // Step 4: History Operations
-                Console.WriteLine("Step 4: History Operations");
+                // Step 3: History Operations
+                Console.WriteLine("Step 3: History Operations");
                 Console.WriteLine("--------------------------");
 
                 // Get history for a specific resource type using TypeHistory
-                var patientHistory = fhirClient.TypeHistory<Patient>(pageSize: 5);
+                var patientHistory = await fhirClient.TypeHistoryAsync<Patient>(pageSize: 5);
 
-                Console.WriteLine($"Patient history contains {patientHistory.Entry?.Count ?? 0} entries:");
+                Console.WriteLine($"Patient history contains {patientHistory?.Entry?.Count ?? 0} entries:");
 
-                foreach (var entry in patientHistory.Entry ?? new List<Bundle.EntryComponent>())
+                foreach (var entry in patientHistory?.Entry ?? new List<Bundle.EntryComponent>())
                 {
-                    var resource = entry.Resource as Patient;
-                    if (resource != null)
+                    if (entry.Resource is Patient historyPatient)
                     {
-                        Console.WriteLine($"  - Patient/{resource.Id} (Version: {resource.Meta?.VersionId})");
+                        Console.WriteLine($"  - Patient/{historyPatient.Id} (Version: {historyPatient.Meta?.VersionId ?? "N/A"})");
                     }
                 }
 

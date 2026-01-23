@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Hl7.Fhir.Rest;
 
 namespace Com.SaravananSubramanian.Fhir.SetupEnvironment
@@ -18,7 +19,7 @@ namespace Com.SaravananSubramanian.Fhir.SetupEnvironment
     /// </summary>
     class Program
     {
-        static void Main(string[] args)
+        static async System.Threading.Tasks.Task Main(string[] args)
         {
             // Replace with your FHIR server base URL
             // For testing, you can use a public test server like http://hapi.fhir.org/baseR4
@@ -34,7 +35,7 @@ namespace Com.SaravananSubramanian.Fhir.SetupEnvironment
                 var settings = new FhirClientSettings
                 {
                     PreferredFormat = ResourceFormat.Json,
-                    PreferredReturn = Prefer.ReturnRepresentation
+                    ReturnPreference = ReturnPreference.Representation
                 };
 
                 var fhirClient = new FhirClient(fhirServerUrl, settings);
@@ -44,7 +45,7 @@ namespace Com.SaravananSubramanian.Fhir.SetupEnvironment
 
                 // Test the connection by requesting the server's capability statement
                 Console.WriteLine("Testing connection by retrieving server capability statement...");
-                var capabilityStatement = fhirClient.CapabilityStatement();
+                var capabilityStatement = await fhirClient.CapabilityStatementAsync();
 
                 if (capabilityStatement != null)
                 {

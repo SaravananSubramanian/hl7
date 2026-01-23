@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 
@@ -12,7 +13,7 @@ namespace Com.SaravananSubramanian.Fhir.CreateResources
     /// </summary>
     class Program
     {
-        static void Main(string[] args)
+        static async System.Threading.Tasks.Task Main(string[] args)
         {
             // Replace with your FHIR server base URL
             string fhirServerUrl = "http://hapi.fhir.org/baseR4";
@@ -26,7 +27,7 @@ namespace Com.SaravananSubramanian.Fhir.CreateResources
                 var settings = new FhirClientSettings
                 {
                     PreferredFormat = ResourceFormat.Json,
-                    PreferredReturn = Prefer.ReturnRepresentation
+                    ReturnPreference = ReturnPreference.Representation
                 };
 
                 var fhirClient = new FhirClient(fhirServerUrl, settings);
@@ -89,7 +90,13 @@ namespace Com.SaravananSubramanian.Fhir.CreateResources
 
                 // Send the Patient to the FHIR server
                 Console.WriteLine("Sending Patient resource to FHIR server...");
-                var createdPatient = fhirClient.Create(patient);
+                var createdPatient = await fhirClient.CreateAsync(patient);
+
+                if (createdPatient == null)
+                {
+                    Console.WriteLine("Error: Failed to create patient on server.");
+                    return;
+                }
 
                 Console.WriteLine();
                 Console.WriteLine("Patient created successfully on the FHIR server!");
@@ -99,12 +106,22 @@ namespace Com.SaravananSubramanian.Fhir.CreateResources
                 // Verify the creation by reading it back
                 Console.WriteLine();
                 Console.WriteLine("Verifying creation by reading the patient back...");
-                var retrievedPatient = fhirClient.Read<Patient>($"Patient/{createdPatient.Id}");
+                var retrievedPatient = await fhirClient.ReadAsync<Patient>($"Patient/{createdPatient.Id}");
+
+                if (retrievedPatient == null)
+                {
+                    Console.WriteLine("Error: Failed to retrieve patient from server.");
+                    return;
+                }
 
                 Console.WriteLine();
                 Console.WriteLine("Retrieved Patient:");
                 Console.WriteLine($"  ID: {retrievedPatient.Id}");
-                Console.WriteLine($"  Name: {retrievedPatient.Name[0].Family}, {string.Join(" ", retrievedPatient.Name[0].Given)}");
+                if (retrievedPatient.Name?.Count > 0)
+                {
+                    var name = retrievedPatient.Name[0];
+                    Console.WriteLine($"  Name: {name.Family}, {string.Join(" ", name.Given ?? new List<string>())}");
+                }
                 Console.WriteLine($"  Gender: {retrievedPatient.Gender}");
                 Console.WriteLine($"  Active: {retrievedPatient.Active}");
             }

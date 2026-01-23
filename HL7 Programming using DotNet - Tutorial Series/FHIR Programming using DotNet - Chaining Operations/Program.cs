@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 
@@ -10,7 +12,7 @@ namespace Com.SaravananSubramanian.Fhir.ChainingOperations
     /// </summary>
     class Program
     {
-        static void Main(string[] args)
+        static async System.Threading.Tasks.Task Main(string[] args)
         {
             // Replace with your FHIR server base URL
             string fhirServerUrl = "http://hapi.fhir.org/baseR4";
@@ -24,7 +26,7 @@ namespace Com.SaravananSubramanian.Fhir.ChainingOperations
                 var settings = new FhirClientSettings
                 {
                     PreferredFormat = ResourceFormat.Json,
-                    PreferredReturn = Prefer.ReturnRepresentation
+                    ReturnPreference = ReturnPreference.Representation
                 };
 
                 var fhirClient = new FhirClient(fhirServerUrl, settings);
@@ -34,32 +36,33 @@ namespace Com.SaravananSubramanian.Fhir.ChainingOperations
                 Console.WriteLine("-------------------------------------------------------------");
 
                 // First, find a patient to work with
-                var patientSearch = fhirClient.Search<Patient>(new SearchParams().LimitTo(1));
+                var patientSearch = await fhirClient.SearchAsync<Patient>(new SearchParams().LimitTo(1));
 
-                if (patientSearch.Entry?.Count > 0)
+                if (patientSearch?.Entry?.Count > 0 && patientSearch.Entry[0].Resource is Patient patient)
                 {
-                    var patient = (Patient)patientSearch.Entry[0].Resource;
-                    string patientId = patient.Id;
+                    string patientId = patient.Id ?? "unknown";
 
                     Console.WriteLine($"Using Patient ID: {patientId}");
                     Console.WriteLine();
 
                     // Search for Observations linked to this Patient
-                    var observations = fhirClient.Search<Observation>(new SearchParams()
+                    var observations = await fhirClient.SearchAsync<Observation>(new SearchParams()
                         .Where($"patient={patientId}")
                         .LimitTo(5));
 
-                    Console.WriteLine($"Found {observations.Total} Observations for this patient:");
+                    Console.WriteLine($"Found {observations?.Total ?? 0} Observations for this patient:");
 
-                    foreach (var entry in observations.Entry ?? new List<Bundle.EntryComponent>())
+                    foreach (var entry in observations?.Entry ?? new List<Bundle.EntryComponent>())
                     {
-                        var obs = (Observation)entry.Resource;
-                        Console.WriteLine($"  - Observation ID: {obs.Id}, Status: {obs.Status}");
-
-                        if (obs.Code?.Coding?.Count > 0)
+                        if (entry.Resource is Observation obs)
                         {
-                            var coding = obs.Code.Coding[0];
-                            Console.WriteLine($"    Code: {coding.Display ?? coding.Code}");
+                            Console.WriteLine($"  - Observation ID: {obs.Id}, Status: {obs.Status}");
+
+                            if (obs.Code?.Coding?.Count > 0)
+                            {
+                                var coding = obs.Code.Coding[0];
+                                Console.WriteLine($"    Code: {coding.Display ?? coding.Code}");
+                            }
                         }
                     }
                 }
@@ -75,16 +78,18 @@ namespace Com.SaravananSubramanian.Fhir.ChainingOperations
                 Console.WriteLine("---------------------------------------------------------------------");
 
                 // This searches for encounters based on patient criteria
-                var encounterSearch = fhirClient.Search<Encounter>(new SearchParams()
+                var encounterSearch = await fhirClient.SearchAsync<Encounter>(new SearchParams()
                     .Where("patient:Patient.family=Smith")
                     .LimitTo(5));
 
-                Console.WriteLine($"Found {encounterSearch.Total} Encounters for patients named Smith:");
+                Console.WriteLine($"Found {encounterSearch?.Total ?? 0} Encounters for patients named Smith:");
 
-                foreach (var entry in encounterSearch.Entry ?? new List<Bundle.EntryComponent>())
+                foreach (var entry in encounterSearch?.Entry ?? new List<Bundle.EntryComponent>())
                 {
-                    var encounter = (Encounter)entry.Resource;
-                    Console.WriteLine($"  - Encounter ID: {encounter.Id}, Status: {encounter.Status}");
+                    if (entry.Resource is Encounter encounter)
+                    {
+                        Console.WriteLine($"  - Encounter ID: {encounter.Id}, Status: {encounter.Status}");
+                    }
                 }
 
                 Console.WriteLine();
@@ -93,7 +98,7 @@ namespace Com.SaravananSubramanian.Fhir.ChainingOperations
                 Console.WriteLine("Step 3: Handling Paginated Chained Results");
                 Console.WriteLine("------------------------------------------");
 
-                var resultSet = fhirClient.Search<Observation>(new SearchParams()
+                var resultSet = await fhirClient.SearchAsync<Observation>(new SearchParams()
                     .LimitTo(3));
 
                 int pageNum = 1;
@@ -106,15 +111,17 @@ namespace Com.SaravananSubramanian.Fhir.ChainingOperations
 
                     foreach (var entry in resultSet.Entry ?? new List<Bundle.EntryComponent>())
                     {
-                        var obs = (Observation)entry.Resource;
-                        Console.WriteLine($"  - {obs.Id}: {obs.Status}");
-                        totalProcessed++;
+                        if (entry.Resource is Observation obs)
+                        {
+                            Console.WriteLine($"  - {obs.Id}: {obs.Status}");
+                            totalProcessed++;
+                        }
                     }
 
                     // Get the next page
                     if (resultSet.NextLink != null && pageNum < maxPages)
                     {
-                        resultSet = fhirClient.Continue(resultSet);
+                        resultSet = await fhirClient.ContinueAsync(resultSet);
                         pageNum++;
                     }
                     else
@@ -131,16 +138,19 @@ namespace Com.SaravananSubramanian.Fhir.ChainingOperations
                 Console.WriteLine("Step 4: Using _include to Get Related Resources");
                 Console.WriteLine("-----------------------------------------------");
 
-                var includeSearch = fhirClient.Search<Observation>(new SearchParams()
+                var includeSearch = await fhirClient.SearchAsync<Observation>(new SearchParams()
                     .Include("Observation:patient")
                     .LimitTo(3));
 
-                Console.WriteLine($"Found {includeSearch.Entry?.Count ?? 0} resources (including related):");
+                Console.WriteLine($"Found {includeSearch?.Entry?.Count ?? 0} resources (including related):");
 
-                foreach (var entry in includeSearch.Entry ?? new List<Bundle.EntryComponent>())
+                foreach (var entry in includeSearch?.Entry ?? new List<Bundle.EntryComponent>())
                 {
                     var resource = entry.Resource;
-                    Console.WriteLine($"  - {resource.TypeName}/{resource.Id}");
+                    if (resource != null)
+                    {
+                        Console.WriteLine($"  - {resource.TypeName}/{resource.Id}");
+                    }
                 }
 
                 Console.WriteLine();

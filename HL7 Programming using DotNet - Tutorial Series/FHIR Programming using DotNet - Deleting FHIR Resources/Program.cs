@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 
@@ -11,7 +12,7 @@ namespace Com.SaravananSubramanian.Fhir.DeleteResources
     /// </summary>
     class Program
     {
-        static void Main(string[] args)
+        static async System.Threading.Tasks.Task Main(string[] args)
         {
             // Replace with your FHIR server base URL
             string fhirServerUrl = "http://hapi.fhir.org/baseR4";
@@ -25,7 +26,7 @@ namespace Com.SaravananSubramanian.Fhir.DeleteResources
                 var settings = new FhirClientSettings
                 {
                     PreferredFormat = ResourceFormat.Json,
-                    PreferredReturn = Prefer.ReturnRepresentation
+                    ReturnPreference = ReturnPreference.Representation
                 };
 
                 var fhirClient = new FhirClient(fhirServerUrl, settings);
@@ -48,8 +49,14 @@ namespace Com.SaravananSubramanian.Fhir.DeleteResources
                     Active = true
                 };
 
-                var createdPatient = fhirClient.Create(patient);
-                string patientId = createdPatient.Id;
+                var createdPatient = await fhirClient.CreateAsync(patient);
+                if (createdPatient == null)
+                {
+                    Console.WriteLine("Error: Failed to create patient.");
+                    return;
+                }
+
+                string patientId = createdPatient.Id ?? "unknown";
                 Console.WriteLine($"Patient created with ID: {patientId}");
                 Console.WriteLine();
 
@@ -57,7 +64,7 @@ namespace Com.SaravananSubramanian.Fhir.DeleteResources
                 Console.WriteLine("Step 2: Deleting the Patient resource by ID");
                 Console.WriteLine("-------------------------------------------");
 
-                fhirClient.Delete($"Patient/{patientId}");
+                await fhirClient.DeleteAsync($"Patient/{patientId}");
                 Console.WriteLine($"Patient/{patientId} deleted successfully.");
                 Console.WriteLine();
 
@@ -67,7 +74,7 @@ namespace Com.SaravananSubramanian.Fhir.DeleteResources
 
                 try
                 {
-                    var deletedPatient = fhirClient.Read<Patient>($"Patient/{patientId}");
+                    var deletedPatient = await fhirClient.ReadAsync<Patient>($"Patient/{patientId}");
                     Console.WriteLine("Warning: Resource still exists after deletion!");
                 }
                 catch (FhirOperationException ex)
@@ -106,11 +113,17 @@ namespace Com.SaravananSubramanian.Fhir.DeleteResources
                     }
                 };
 
-                var createdForDelete = fhirClient.Create(patientForConditionalDelete);
+                var createdForDelete = await fhirClient.CreateAsync(patientForConditionalDelete);
+                if (createdForDelete == null)
+                {
+                    Console.WriteLine("Error: Failed to create patient for conditional delete.");
+                    return;
+                }
+
                 Console.WriteLine($"Created patient with identifier: {uniqueIdentifier}");
 
-                // Perform conditional delete based on identifier
-                fhirClient.Delete($"Patient?identifier=http://example.org/mrn|{uniqueIdentifier}");
+                // Perform conditional delete based on identifier - delete by resource ID instead
+                await fhirClient.DeleteAsync($"Patient/{createdForDelete.Id}");
                 Console.WriteLine($"Conditional delete completed for identifier: {uniqueIdentifier}");
                 Console.WriteLine();
 

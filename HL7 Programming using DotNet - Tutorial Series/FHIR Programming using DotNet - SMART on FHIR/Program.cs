@@ -18,12 +18,10 @@ namespace Com.SaravananSubramanian.Fhir.SmartOnFhir
     /// </summary>
     class Program
     {
-        // Configuration - Replace these with your actual values
+        // Configuration - Replace these with your actual values for Azure FHIR
         private static readonly string ClientId = "your-client-id";
         private static readonly string ClientSecret = "your-client-secret";
         private static readonly string TenantId = "your-tenant-id";
-        private static readonly string FhirServerUrl = "https://your-fhir-server.azurehealthcareapis.com";
-        private static readonly string Scope = "https://your-fhir-server.azurehealthcareapis.com/.default";
 
         static async System.Threading.Tasks.Task Main(string[] args)
         {
@@ -78,7 +76,7 @@ namespace Com.SaravananSubramanian.Fhir.SmartOnFhir
                 var settings = new FhirClientSettings
                 {
                     PreferredFormat = ResourceFormat.Json,
-                    PreferredReturn = Prefer.ReturnRepresentation
+                    ReturnPreference = ReturnPreference.Representation
                 };
 
                 var fhirClient = new FhirClient(publicTestServer, settings);
@@ -92,8 +90,8 @@ namespace Com.SaravananSubramanian.Fhir.SmartOnFhir
                 Console.WriteLine($"Connected to test server: {publicTestServer}");
 
                 // Perform a search operation
-                var patients = fhirClient.Search<Patient>(new SearchParams().LimitTo(3));
-                Console.WriteLine($"Retrieved {patients.Entry?.Count ?? 0} patients");
+                var patients = await fhirClient.SearchAsync<Patient>(new SearchParams().LimitTo(3));
+                Console.WriteLine($"Retrieved {patients?.Entry?.Count ?? 0} patients");
                 Console.WriteLine();
 
                 // Step 4: SMART App Launch Framework
@@ -163,16 +161,20 @@ fhirClient.OnBeforeRequest += (sender, e) =>
 
         /// <summary>
         /// Example method showing how to get an access token for Azure FHIR Server.
-        /// Uncomment and use with real credentials in production.
+        /// This method demonstrates the client credentials flow for backend services.
+        /// Replace the placeholder values with your actual Azure AD app registration details.
         /// </summary>
-        static async Task<string> GetAccessTokenAsync()
+        /// <param name="fhirServerUrl">The URL of your Azure FHIR server</param>
+        /// <returns>An access token for the FHIR server</returns>
+        static async System.Threading.Tasks.Task<string> GetAccessTokenAsync(string fhirServerUrl)
         {
             var app = ConfidentialClientApplicationBuilder.Create(ClientId)
                 .WithClientSecret(ClientSecret)
                 .WithAuthority(new Uri($"https://login.microsoftonline.com/{TenantId}"))
                 .Build();
 
-            var result = await app.AcquireTokenForClient(new[] { Scope }).ExecuteAsync();
+            var scope = $"{fhirServerUrl}/.default";
+            var result = await app.AcquireTokenForClient(new[] { scope }).ExecuteAsync();
             return result.AccessToken;
         }
     }

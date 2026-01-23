@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Hl7.Fhir.R4" Version="5.5.1" />
-    <PackageReference Include="Microsoft.Identity.Client" Version="4.60.0" />
+    <PackageReference Include="Microsoft.Identity.Client" Version="4.67.2" />
   </ItemGroup>
 
 </Project>

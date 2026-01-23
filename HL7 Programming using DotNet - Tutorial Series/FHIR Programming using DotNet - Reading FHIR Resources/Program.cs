@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 
@@ -11,7 +13,7 @@ namespace Com.SaravananSubramanian.Fhir.ReadResources
     /// </summary>
     class Program
     {
-        static void Main(string[] args)
+        static async System.Threading.Tasks.Task Main(string[] args)
         {
             // Replace with your FHIR server base URL
             string fhirServerUrl = "http://hapi.fhir.org/baseR4";
@@ -25,7 +27,7 @@ namespace Com.SaravananSubramanian.Fhir.ReadResources
                 var settings = new FhirClientSettings
                 {
                     PreferredFormat = ResourceFormat.Json,
-                    PreferredReturn = Prefer.ReturnRepresentation
+                    ReturnPreference = ReturnPreference.Representation
                 };
 
                 var fhirClient = new FhirClient(fhirServerUrl, settings);
@@ -35,31 +37,33 @@ namespace Com.SaravananSubramanian.Fhir.ReadResources
                 Console.WriteLine("-----------------------------------------");
 
                 // First, search for any patient to get a valid ID
-                var searchResult = fhirClient.Search<Patient>(new SearchParams().LimitTo(1));
+                var searchResult = await fhirClient.SearchAsync<Patient>(new SearchParams().LimitTo(1));
 
-                if (searchResult.Entry?.Count > 0)
+                if (searchResult?.Entry?.Count > 0 && searchResult.Entry[0].Resource is Patient firstPatient)
                 {
-                    var firstPatient = (Patient)searchResult.Entry[0].Resource;
-                    string patientId = firstPatient.Id;
+                    string patientId = firstPatient.Id ?? "unknown";
 
                     Console.WriteLine($"Found patient ID: {patientId}");
                     Console.WriteLine();
 
                     // Read the specific patient by ID
-                    var patient = fhirClient.Read<Patient>($"Patient/{patientId}");
+                    var patient = await fhirClient.ReadAsync<Patient>($"Patient/{patientId}");
 
-                    Console.WriteLine("Patient Details:");
-                    Console.WriteLine($"  ID: {patient.Id}");
-
-                    if (patient.Name?.Count > 0)
+                    if (patient != null)
                     {
-                        var name = patient.Name[0];
-                        Console.WriteLine($"  Name: {name.Family}, {string.Join(" ", name.Given ?? new List<string>())}");
-                    }
+                        Console.WriteLine("Patient Details:");
+                        Console.WriteLine($"  ID: {patient.Id}");
 
-                    Console.WriteLine($"  Gender: {patient.Gender}");
-                    Console.WriteLine($"  Birth Date: {patient.BirthDate}");
-                    Console.WriteLine($"  Active: {patient.Active}");
+                        if (patient.Name?.Count > 0)
+                        {
+                            var name = patient.Name[0];
+                            Console.WriteLine($"  Name: {name.Family}, {string.Join(" ", name.Given ?? new List<string>())}");
+                        }
+
+                        Console.WriteLine($"  Gender: {patient.Gender}");
+                        Console.WriteLine($"  Birth Date: {patient.BirthDate}");
+                        Console.WriteLine($"  Active: {patient.Active}");
+                    }
                 }
                 else
                 {
@@ -75,21 +79,23 @@ namespace Com.SaravananSubramanian.Fhir.ReadResources
                     .Where("family=Smith")
                     .LimitTo(5);
 
-                var searchBundle = fhirClient.Search<Patient>(searchParams);
+                var searchBundle = await fhirClient.SearchAsync<Patient>(searchParams);
 
-                Console.WriteLine($"Found {searchBundle.Total} patient(s) with family name 'Smith'");
+                Console.WriteLine($"Found {searchBundle?.Total ?? 0} patient(s) with family name 'Smith'");
                 Console.WriteLine();
 
-                foreach (var entry in searchBundle.Entry ?? new List<Bundle.EntryComponent>())
+                foreach (var entry in searchBundle?.Entry ?? new List<Bundle.EntryComponent>())
                 {
-                    var patient = (Patient)entry.Resource;
-                    if (patient.Name?.Count > 0)
+                    if (entry.Resource is Patient patient)
                     {
-                        Console.WriteLine($"  - {patient.Name[0].Family}, {string.Join(" ", patient.Name[0].Given ?? new List<string>())} (ID: {patient.Id})");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"  - (No name) ID: {patient.Id}");
+                        if (patient.Name?.Count > 0)
+                        {
+                            Console.WriteLine($"  - {patient.Name[0].Family}, {string.Join(" ", patient.Name[0].Given ?? new List<string>())} (ID: {patient.Id})");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"  - (No name) ID: {patient.Id}");
+                        }
                     }
                 }
 
@@ -100,7 +106,7 @@ namespace Com.SaravananSubramanian.Fhir.ReadResources
 
                 try
                 {
-                    var nonExistentPatient = fhirClient.Read<Patient>("Patient/non-existent-id-12345");
+                    var nonExistentPatient = await fhirClient.ReadAsync<Patient>("Patient/non-existent-id-12345");
                 }
                 catch (FhirOperationException ex)
                 {

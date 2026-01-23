@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Hl7.Fhir.Serialization;
@@ -13,7 +14,7 @@ namespace Com.SaravananSubramanian.Fhir.ValidateResources
     /// </summary>
     class Program
     {
-        static void Main(string[] args)
+        static async System.Threading.Tasks.Task Main(string[] args)
         {
             Console.WriteLine("FHIR .NET SDK - Validating FHIR Resources Tutorial");
             Console.WriteLine("==================================================");
@@ -99,7 +100,7 @@ namespace Com.SaravananSubramanian.Fhir.ValidateResources
 
                 try
                 {
-                    var serverValidationResult = fhirClient.TypeOperation<Patient>("validate", parameters);
+                    var serverValidationResult = await fhirClient.TypeOperationAsync<Patient>("validate", parameters);
 
                     if (serverValidationResult is OperationOutcome serverOutcome)
                     {
@@ -142,7 +143,7 @@ namespace Com.SaravananSubramanian.Fhir.ValidateResources
 
                 try
                 {
-                    var obsValidationResult = fhirClient.TypeOperation<Observation>("validate", obsParameters);
+                    var obsValidationResult = await fhirClient.TypeOperationAsync<Observation>("validate", obsParameters);
 
                     if (obsValidationResult is OperationOutcome obsOutcome)
                     {
