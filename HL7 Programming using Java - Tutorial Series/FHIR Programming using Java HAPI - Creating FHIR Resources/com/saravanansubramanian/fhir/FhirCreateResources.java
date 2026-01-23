@@ -79,9 +79,13 @@ public class FhirCreateResources {
                     .setUse(ContactPoint.ContactPointUse.WORK);
 
             System.out.println("Patient resource created locally:");
-            System.out.println("  Name: " + patient.getNameFirstRep().getFamily() + ", " +
-                    String.join(" ", patient.getNameFirstRep().getGiven().stream()
-                            .map(StringType::getValue).toList()));
+            if (patient.hasName()) {
+                HumanName name = patient.getNameFirstRep();
+                String givenNames = name.hasGiven()
+                        ? String.join(" ", name.getGiven().stream().map(StringType::getValue).toList())
+                        : "";
+                System.out.println("  Name: " + name.getFamily() + ", " + givenNames);
+            }
             System.out.println("  Gender: " + patient.getGender());
             System.out.println("  Birth Date: " + birthDate);
             System.out.println();
@@ -117,10 +121,11 @@ public class FhirCreateResources {
             System.out.println("  ID: " + retrievedPatient.getId());
 
             if (retrievedPatient.hasName() && !retrievedPatient.getName().isEmpty()) {
-                var name = retrievedPatient.getNameFirstRep();
-                System.out.println("  Name: " + name.getFamily() + ", " +
-                        String.join(" ", name.getGiven().stream()
-                                .map(StringType::getValue).toList()));
+                HumanName name = retrievedPatient.getNameFirstRep();
+                String givenNames = name.hasGiven()
+                        ? String.join(" ", name.getGiven().stream().map(StringType::getValue).toList())
+                        : "";
+                System.out.println("  Name: " + name.getFamily() + ", " + givenNames);
             }
 
             System.out.println("  Gender: " + retrievedPatient.getGender());

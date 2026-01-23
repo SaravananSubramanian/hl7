@@ -151,9 +151,10 @@ public class FhirSearchResources {
 
                 if (patient.hasName() && !patient.getName().isEmpty()) {
                     HumanName humanName = patient.getNameFirstRep();
-                    name = humanName.getFamily() + ", " +
-                            String.join(" ", humanName.getGiven().stream()
-                                    .map(StringType::getValue).toList());
+                    String givenNames = humanName.hasGiven()
+                            ? String.join(" ", humanName.getGiven().stream().map(StringType::getValue).toList())
+                            : "";
+                    name = humanName.getFamily() + ", " + givenNames;
                 }
 
                 System.out.println("  - " + name +

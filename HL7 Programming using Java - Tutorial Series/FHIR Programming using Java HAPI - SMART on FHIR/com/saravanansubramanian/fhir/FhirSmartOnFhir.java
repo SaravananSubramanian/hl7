@@ -75,7 +75,8 @@ public class FhirSmartOnFhir {
                 .returnBundle(Bundle.class)
                 .execute();
 
-        System.out.println("Retrieved " + patients.getEntry().size() + " patients");
+        int patientCount = (patients != null && patients.hasEntry()) ? patients.getEntry().size() : 0;
+        System.out.println("Retrieved " + patientCount + " patients");
         System.out.println();
 
         // Step 4: SMART App Launch Framework

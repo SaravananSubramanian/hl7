@@ -4,6 +4,7 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.server.exceptions.ResourceNotFoundException;
 import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.HumanName;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Resource;
 import org.hl7.fhir.r4.model.StringType;
@@ -61,10 +62,11 @@ public class FhirReadResources {
                     System.out.println("  ID: " + patient.getId());
 
                     if (patient.hasName() && !patient.getName().isEmpty()) {
-                        var name = patient.getNameFirstRep();
-                        System.out.println("  Name: " + name.getFamily() + ", " +
-                                String.join(" ", name.getGiven().stream()
-                                        .map(StringType::getValue).toList()));
+                        HumanName name = patient.getNameFirstRep();
+                        String givenNames = name.hasGiven()
+                                ? String.join(" ", name.getGiven().stream().map(StringType::getValue).toList())
+                                : "";
+                        System.out.println("  Name: " + name.getFamily() + ", " + givenNames);
                     }
 
                     System.out.println("  Gender: " + patient.getGender());
@@ -99,10 +101,11 @@ public class FhirReadResources {
                 // Safe type check using instanceof with pattern matching
                 if (entryResource instanceof Patient patient) {
                     if (patient.hasName() && !patient.getName().isEmpty()) {
-                        var name = patient.getNameFirstRep();
-                        System.out.println("  - " + name.getFamily() + ", " +
-                                String.join(" ", name.getGiven().stream()
-                                        .map(StringType::getValue).toList()) +
+                        HumanName name = patient.getNameFirstRep();
+                        String givenNames = name.hasGiven()
+                                ? String.join(" ", name.getGiven().stream().map(StringType::getValue).toList())
+                                : "";
+                        System.out.println("  - " + name.getFamily() + ", " + givenNames +
                                 " (ID: " + patient.getIdElement().getIdPart() + ")");
                     } else {
                         System.out.println("  - (No name) ID: " + patient.getIdElement().getIdPart());

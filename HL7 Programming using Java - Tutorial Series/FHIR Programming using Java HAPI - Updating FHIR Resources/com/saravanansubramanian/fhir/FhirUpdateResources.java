@@ -41,11 +41,21 @@ public class FhirUpdateResources {
                     .resource(patient)
                     .execute();
 
+            // Check if the outcome has an ID before accessing it
+            if (createOutcome.getId() == null) {
+                System.err.println("Error: Failed to create patient - no ID returned from server.");
+                return;
+            }
+
             String patientId = createOutcome.getId().getIdPart();
             System.out.println("Patient created with ID: " + patientId);
-            System.out.println("Original Name: " + patient.getNameFirstRep().getFamily() + ", " +
-                    String.join(" ", patient.getNameFirstRep().getGiven().stream()
-                            .map(StringType::getValue).toList()));
+            if (patient.hasName()) {
+                HumanName name = patient.getNameFirstRep();
+                String givenNames = name.hasGiven()
+                        ? String.join(" ", name.getGiven().stream().map(StringType::getValue).toList())
+                        : "";
+                System.out.println("Original Name: " + name.getFamily() + ", " + givenNames);
+            }
             System.out.println();
 
             // Step 2: Update the patient's family name
@@ -58,7 +68,10 @@ public class FhirUpdateResources {
                     .withId(patientId)
                     .execute();
 
-            // Modify the family name
+            // Modify the family name (add a name if none exists)
+            if (!patientToUpdate.hasName()) {
+                patientToUpdate.addName();
+            }
             patientToUpdate.getNameFirstRep().setFamily("UpdatedLastName");
 
             // Execute the update
@@ -67,7 +80,8 @@ public class FhirUpdateResources {
                     .execute();
 
             System.out.println("Patient updated successfully!");
-            System.out.println("New Version ID: " + updateOutcome.getId().getVersionIdPart());
+            String versionId = (updateOutcome.getId() != null) ? updateOutcome.getId().getVersionIdPart() : "N/A";
+            System.out.println("New Version ID: " + versionId);
             System.out.println();
 
             // Step 3: Add contact information
@@ -90,7 +104,9 @@ public class FhirUpdateResources {
                     .resource(patientWithNewVersion)
                     .execute();
 
-            System.out.println("Contact added: " + patientWithNewVersion.getTelecomFirstRep().getValue());
+            if (patientWithNewVersion.hasTelecom()) {
+                System.out.println("Contact added: " + patientWithNewVersion.getTelecomFirstRep().getValue());
+            }
             System.out.println();
 
             // Step 4: Conditional update (by identifier)
@@ -122,6 +138,10 @@ public class FhirUpdateResources {
                     .withId(patientId)
                     .execute();
 
+            // Add a name if none exists
+            if (!patientForConditionalUpdate.hasName()) {
+                patientForConditionalUpdate.addName();
+            }
             patientForConditionalUpdate.getNameFirstRep().setFamily("ConditionallyUpdatedName");
 
             MethodOutcome conditionalOutcome = client.update()
@@ -145,7 +165,8 @@ public class FhirUpdateResources {
 
             System.out.println("Final Patient State:");
             System.out.println("  ID: " + finalPatient.getIdElement().getIdPart());
-            System.out.println("  Name: " + finalPatient.getNameFirstRep().getFamily());
+            String finalName = finalPatient.hasName() ? finalPatient.getNameFirstRep().getFamily() : "Unknown";
+            System.out.println("  Name: " + finalName);
             System.out.println("  Active: " + finalPatient.getActive());
 
             if (finalPatient.hasTelecom()) {

@@ -43,6 +43,12 @@ public class FhirDeleteResources {
                     .resource(patient)
                     .execute();
 
+            // Check if the outcome has an ID before accessing it
+            if (createOutcome.getId() == null) {
+                System.err.println("Error: Failed to create patient - no ID returned from server.");
+                return;
+            }
+
             String patientId = createOutcome.getId().getIdPart();
             System.out.println("Patient created with ID: " + patientId);
             System.out.println();
@@ -94,7 +100,10 @@ public class FhirDeleteResources {
                     .execute();
 
             System.out.println("Created patient with identifier: " + uniqueIdentifier);
-            System.out.println("Patient ID: " + conditionalCreateOutcome.getId().getIdPart());
+            String conditionalPatientId = (conditionalCreateOutcome.getId() != null)
+                    ? conditionalCreateOutcome.getId().getIdPart()
+                    : "Unknown";
+            System.out.println("Patient ID: " + conditionalPatientId);
 
             // Perform conditional delete based on identifier
             client.delete()
