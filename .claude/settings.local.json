@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "WebFetch(domain:hapi.fhir.org)",
-      "Bash(dotnet run)",
-      "Bash(FHIR_TUTORIAL_TEST_MODE=true dotnet run:*)"
-    ]
-  }
-}
