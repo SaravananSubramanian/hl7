@@ -19,7 +19,7 @@ namespace Com.SaravananSubramanian.Nhapi.Tersers.Advanced
                 // instantiate a PipeParser, which handles the "traditional or default encoding"
                 var ourPipeParser = new PipeParser();
 
-                // parse the message string into a Java message object
+                // parse the message string into a .NET message object
                 var orderResultsHl7Message = ourPipeParser.Parse(messageString);
 
                 //create a terser object instance by wrapping it around the message object

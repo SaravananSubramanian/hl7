@@ -42,7 +42,7 @@ public class HapiParserBasicMessageValidationDemo {
 	
 	private static void parsingInvalidAttribute_Scenario2() {
 		
-		//intentionally create bad data in the MSH-6 field which is a TS (Timestamp) data type 
+		//intentionally create bad data in the MSH-7 field which is a TS (Timestamp) data type 
 		String anInvalidAcknowledgementMessage = "MSH|^~\\&|SENDING_APPLICATION|SENDING_FACILITY|"
 				+ "RECEIVING_APPLICATION|RECEIVING_FACILITY|"
 				+ "AAAAAAAAAAAAA||ACK|1407511|P|2.4||||||\r\n" + 
@@ -59,7 +59,7 @@ public class HapiParserBasicMessageValidationDemo {
 	
 	private static void parsingInvalidMessageWithValidationTurnedOff_Scenario3() {
 		
-		//intentionally create bad data in the MSH-6 field which is a TS (Timestamp) data type 
+		//intentionally create bad data in the MSH-7 field which is a TS (Timestamp) data type 
 		String anInvalidAcknowledgementMessage = "MSH|^~\\&|SENDING_APPLICATION|SENDING_FACILITY|"
 				+ "RECEIVING_APPLICATION|RECEIVING_FACILITY|"
 				+ "AAAAAAAAAAAAA||ACK|1407511|P|2.4||||||\r\n" + 

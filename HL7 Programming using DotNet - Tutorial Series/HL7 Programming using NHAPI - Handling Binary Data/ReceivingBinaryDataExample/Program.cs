@@ -20,7 +20,7 @@ namespace Com.SaravananSubramanian.Nhapi.BinaryData.Receiving
             {
                 // instantiate a PipeParser, which handles the "traditional or default encoding"
                 var ourPipeParser = new PipeParser();
-                // parse the string format message into a Java message object
+                // parse the string format message into a .NET message object
                 var hl7Message = ourPipeParser.Parse(File.ReadAllText(OruR01MessageWithBase64EncodedPdfReportIncluded, Encoding.UTF8));
 
                 //cast to message to an ORU R01 message in order to get access to the message data
