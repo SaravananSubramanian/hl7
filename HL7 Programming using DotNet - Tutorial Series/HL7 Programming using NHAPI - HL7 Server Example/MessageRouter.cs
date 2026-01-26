@@ -68,7 +68,7 @@ public class MessageRouter
         if (fields.Length < 9) return "UNKNOWN";
 
         // MSH-9 is the 9th field (index 8), split by ^
-        var messageType = fields[8].Split('^');
+        var messageType = fields[8]?.Split('^') ?? Array.Empty<string>();
         return messageType.Length > 0 ? messageType[0] : "UNKNOWN";
     }
 
@@ -81,7 +81,7 @@ public class MessageRouter
         var fields = mshLine.Split('|');
         if (fields.Length < 9) return "UNKNOWN";
 
-        var messageType = fields[8].Split('^');
+        var messageType = fields[8]?.Split('^') ?? Array.Empty<string>();
         return messageType.Length > 1 ? messageType[1] : "UNKNOWN";
     }
 }

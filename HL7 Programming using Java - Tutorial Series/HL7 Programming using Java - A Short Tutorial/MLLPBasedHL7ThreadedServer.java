@@ -16,8 +16,7 @@ package com.saravanansubramanian;
 	     }
 	     
           public void acceptConnections() {
-	        try {
-	            ServerSocket server = new ServerSocket(listenPort, 5);
+	        try (ServerSocket server = new ServerSocket(listenPort, 5)) {
 	            Socket clientSocket = null;
 	            while (true) {
 	                clientSocket = server.accept();

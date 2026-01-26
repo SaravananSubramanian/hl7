@@ -71,6 +71,7 @@ namespace Com.SaravananSubramanian.Hl7.SimpleTcpEchoServer
                     netStream?.Close();
                     netStream?.Dispose();
                     acceptTcpClient?.Close();
+                    acceptTcpClient?.Dispose();
                 }
             }
         }

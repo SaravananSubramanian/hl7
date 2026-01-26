@@ -55,7 +55,7 @@ namespace Com.SaravananSubramanian.Hl7.MultiThreadedTcpEchoServer
             }
             finally
             {
-                //stop the TCP listener before you dispose of it
+                //stop the TCP listener to release resources
                 _tcpListener?.Stop();
             }
         }
@@ -96,9 +96,10 @@ namespace Com.SaravananSubramanian.Hl7.MultiThreadedTcpEchoServer
             finally
             {
                 // Close the stream and the connection with the client
-                netStream.Close();
-                netStream.Dispose();
-                tcpClient.Close();
+                netStream?.Close();
+                netStream?.Dispose();
+                tcpClient?.Close();
+                tcpClient?.Dispose();
             }
 
         }

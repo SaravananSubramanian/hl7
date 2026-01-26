@@ -17,12 +17,10 @@ public class BasicListenerWithEnhancedMessageHandlingAndRouting {
 	// change this to whatever your port number is
 	private static final int PORT_NUMBER = 61386;
 
-	// In HAPI, almost all things revolve around a context object
-	private static HapiContext context = new DefaultHapiContext();
-
 	public static void main(String[] args) throws Exception {
 
-		try {
+		// In HAPI, almost all things revolve around a context object
+		try (HapiContext context = new DefaultHapiContext()) {
 			boolean useSecureConnection = false; // are you using TLS/SSL?
 
 			// Set up a connection and a initiator purely for testing the server that we are

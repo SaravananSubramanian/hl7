@@ -94,21 +94,10 @@ public class HapiExtractBinaryData {
 		return encapsulatedPdfDataInBase64Format;
 	}
 
-	// Note: There are better/easier methods for writing to file in the newer
-	// versions of Java. I am using this simply to be backwards compatible with JDK 1.4
+	// Using try-with-resources for proper resource management (Java 7+)
 	private static void writeByteDataToFile(String destinationFile, byte[] byteData) throws IOException {
-		FileOutputStream fileOuputStream = null;
-
-		try {
-			fileOuputStream = new FileOutputStream(destinationFile);
-			fileOuputStream.write(byteData);
-		} catch (IOException e) {
-			// simply re-throw the exception for now
-			throw e;
-		} finally {
-			if (fileOuputStream != null) {
-				fileOuputStream.close();
-			}
+		try (FileOutputStream fileOutputStream = new FileOutputStream(destinationFile)) {
+			fileOutputStream.write(byteData);
 		}
 	}
 	

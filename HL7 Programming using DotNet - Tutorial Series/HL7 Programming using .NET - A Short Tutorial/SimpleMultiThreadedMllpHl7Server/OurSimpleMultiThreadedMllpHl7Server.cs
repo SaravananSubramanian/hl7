@@ -48,7 +48,7 @@ namespace Com.SaravananSubramanian.Hl7.SimpleMultiThreadedMllpHl7Server
             }
             finally
             {
-                //stop the TCP listener before you dispose of it
+                //stop the TCP listener to release resources
                 _tcpListener?.Stop();
             }
         }
@@ -112,9 +112,10 @@ namespace Com.SaravananSubramanian.Hl7.SimpleMultiThreadedMllpHl7Server
             finally
             {
                 // Close the stream and the connection with the client
-                netStream.Close();
-                netStream.Dispose();
-                tcpClientConnection.Close();
+                netStream?.Close();
+                netStream?.Dispose();
+                tcpClientConnection?.Close();
+                tcpClientConnection?.Dispose();
             }
 
         }
@@ -148,8 +149,10 @@ namespace Com.SaravananSubramanian.Hl7.SimpleMultiThreadedMllpHl7Server
             //parse the message into segments using the end of segment separter
             var hl7MessageSegments = incomingHl7Message.Split(CARRIAGE_RETURN);
 
+            if (hl7MessageSegments.Length == 0) return string.Empty;
+
             //tokenize the MSH segment into fields using the field separator
-            var hl7FieldsInMshSegment = hl7MessageSegments[0].Split(FIELD_DELIMITER);
+            var hl7FieldsInMshSegment = hl7MessageSegments[0]?.Split(FIELD_DELIMITER) ?? Array.Empty<string>();
 
             //retrieve the message control ID in order to reply back with the message ack
             foreach (var field in hl7FieldsInMshSegment)

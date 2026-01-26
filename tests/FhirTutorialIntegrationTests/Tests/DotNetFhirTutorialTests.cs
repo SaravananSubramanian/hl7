@@ -111,7 +111,7 @@ public class DotNetFhirTutorialTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task AllDotNetTutorials_ShouldBeConfigured()
+    public void AllDotNetTutorials_ShouldBeConfigured()
     {
         // Verify all expected tutorials are configured
         var tutorials = _settings.DotNet.Tutorials;

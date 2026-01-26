@@ -16,13 +16,11 @@ public class BasicListenerWithoutMessageHandling {
 	// change this to whatever your port number is
 	private static final int PORT_NUMBER = 61386;
 
-	// In HAPI, almost all things revolve around a context object
-	private static HapiContext context = new DefaultHapiContext();
-
 	public static void main(String[] args) throws Exception {
 
-		try {
-			
+		// In HAPI, almost all things revolve around a context object
+		try (HapiContext context = new DefaultHapiContext()) {
+
 			boolean useSecureConnection = false; // are you using TLS/SSL?
 
 			Connection ourConnection = context.newLazyClient("localhost", PORT_NUMBER, useSecureConnection);
@@ -33,7 +31,7 @@ public class BasicListenerWithoutMessageHandling {
 			ourHl7Server.startAndWait();
 
 			ADT_A01 adtMessage = (ADT_A01) AdtMessageFactory.createMessage("A01");
-			
+
 			Parser ourPipeParser = context.getPipeParser();
 			Message messageResponse = initiator.sendAndReceive(adtMessage);
 
@@ -41,11 +39,11 @@ public class BasicListenerWithoutMessageHandling {
 			System.out.println("Received a message response:\n" + responseString);
 
 			ourConnection.close();
-			
+
 			ourHl7Server.stopAndWait();
-			
+
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
 

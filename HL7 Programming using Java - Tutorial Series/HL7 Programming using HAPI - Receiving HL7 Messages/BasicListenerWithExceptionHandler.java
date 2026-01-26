@@ -21,12 +21,10 @@ public class BasicListenerWithExceptionHandler {
 	// change this to whatever your port number is
 	private static final int PORT_NUMBER = 56420;
 
-	// In HAPI, almost all things revolve around a context object
-	private static HapiContext context = new DefaultHapiContext();
-
 	public static void main(String[] args) throws Exception {
 
-		try {
+		// In HAPI, almost all things revolve around a context object
+		try (HapiContext context = new DefaultHapiContext()) {
 			boolean useSecureConnection = false; // are you using TLS/SSL?
 
 			Connection ourConnection = context.newLazyClient("localhost", PORT_NUMBER, useSecureConnection);
@@ -35,20 +33,20 @@ public class BasicListenerWithExceptionHandler {
 			HL7Service ourHl7Server = context.newServer(PORT_NUMBER, useSecureConnection);
 
 			AppRoutingDataImpl ourRouter = new AppRoutingDataImpl("ADT", "A0.", "P", "2.4");
-            
+
 			//call a dummy application that simulates an exception scenario
 			ourHl7Server.registerApplication(ourRouter, new SomeErrorThrowingApplication());
-			
+
 			//register a connection listener to the listener as well
-			//this lets us listen for connection-related events 
-			//such as when a new connection is being opened 
+			//this lets us listen for connection-related events
+			//such as when a new connection is being opened
 			//or when a connection is being closed and discarded
-            ourHl7Server.setExceptionHandler(new OurExceptionHandler());
-			
+			ourHl7Server.setExceptionHandler(new OurExceptionHandler());
+
 			ourHl7Server.startAndWait();
 
 			ADT_A01 adtMessage = (ADT_A01) AdtMessageFactory.createMessage("A01");
-			
+
 			Parser ourPipeParser = context.getPipeParser();
 			Message messageResponse = initiator.sendAndReceive(adtMessage);
 
@@ -56,7 +54,7 @@ public class BasicListenerWithExceptionHandler {
 			System.out.println("Received a message response:\n" + responseString);
 
 			ourConnection.close();
-			
+
 			ourHl7Server.stopAndWait();
 		} catch (Exception e) {
 			e.printStackTrace();

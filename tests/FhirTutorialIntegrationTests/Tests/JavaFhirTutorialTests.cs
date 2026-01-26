@@ -129,7 +129,7 @@ public class JavaFhirTutorialTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task AllJavaTutorials_ShouldBeConfigured()
+    public void AllJavaTutorials_ShouldBeConfigured()
     {
         // Verify all expected tutorials are configured
         var tutorials = _settings.Java.Tutorials;

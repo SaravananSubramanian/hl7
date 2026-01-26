@@ -148,7 +148,8 @@ public class Hl7Server
         }
         finally
         {
-            _listener.Stop();
+            _listener?.Stop();
+            _listener?.Dispose();
         }
     }
 
@@ -207,7 +208,8 @@ public class Hl7Server
         }
         finally
         {
-            client.Close();
+            client?.Close();
+            client?.Dispose();
             Console.WriteLine($"[Connection] Client disconnected: {endpoint}");
         }
     }
