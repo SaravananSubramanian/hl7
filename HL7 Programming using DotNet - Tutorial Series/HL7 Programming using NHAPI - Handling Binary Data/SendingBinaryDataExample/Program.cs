@@ -36,7 +36,7 @@ namespace Com.SaravananSubramanian.Nhapi.BinaryData.Sending
             }
             catch (Exception e)
             {
-                LogToDebugConsole($"Error occured while creating and transmitting HL7 message {e.Message}");
+                LogToDebugConsole($"Error occurred while creating and transmitting HL7 message {e.Message}");
             }
         }
 

@@ -36,7 +36,7 @@ namespace Com.SaravananSubramanian.Nhapi.Parsing.CustomZSegments.Segment
 				}
 				catch (Exception ex)
 				{
-				    const string errorMessage = "Unexpected error occured while obtaining Custom Notes field value.";
+				    const string errorMessage = "Unexpected error occurred while obtaining Custom Notes field value.";
 				    HapiLogFactory.GetHapiLog(GetType()).Error(errorMessage, ex);
 					throw new Exception(errorMessage, ex);
 				}
@@ -56,7 +56,7 @@ namespace Com.SaravananSubramanian.Nhapi.Parsing.CustomZSegments.Segment
 				}
 				catch (Exception ex)
 				{
-				    var errorMessage = "Unexpected error occured while obtaining Custom Description field value.";
+				    var errorMessage = "Unexpected error occurred while obtaining Custom Description field value.";
                     HapiLogFactory.GetHapiLog(GetType()).Error(errorMessage, ex);
 					throw new Exception(errorMessage, ex);
 				}

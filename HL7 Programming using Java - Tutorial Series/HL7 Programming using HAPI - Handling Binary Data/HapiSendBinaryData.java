@@ -17,7 +17,7 @@ public class HapiSendBinaryData {
 	public static void main(String[] args) {
 		try {
 			// create the HL7 message
-			// this OruMessageFactory class is not from NHAPI but my own wrapper class
+			// this OruMessageFactory class is not from HAPI but my own wrapper class
 			// check my GitHub page or see my earlier article for reference
 			Message oruMessage = OruMessageFactory.CreateMessage();
 

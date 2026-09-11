@@ -50,7 +50,7 @@ public class HapiExtractBinaryData {
 			throw new IllegalStateException("Unable to access message data. Please check if your input file contains a valid ORU R01 message");
 			
 		} catch (Exception e) {
-			System.out.println(String.format("Error occured during Order Response PDF extraction operation -> %s",
+			System.out.println(String.format("Error occurred during Order Response PDF extraction operation -> %s",
 					e.getMessage()));
 		}
 	}

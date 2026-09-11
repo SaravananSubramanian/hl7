@@ -43,7 +43,7 @@ namespace Com.SaravananSubramanian.Nhapi.BinaryData.Receiving
             }
             catch (Exception e)
             {
-                LogToDebugConsole($"Error occured during Order Response PDF extraction operation -> {e.StackTrace}");
+                LogToDebugConsole($"Error occurred during Order Response PDF extraction operation -> {e.StackTrace}");
             }
         }
 

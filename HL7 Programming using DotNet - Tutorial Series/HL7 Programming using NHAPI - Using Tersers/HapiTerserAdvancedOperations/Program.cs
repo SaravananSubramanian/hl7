@@ -57,7 +57,7 @@ namespace Com.SaravananSubramanian.Nhapi.Tersers.Advanced
             }
             catch (Exception e)
             {
-                LogToDebugConsole($"Error occured while creating HL7 message {e.Message}");
+                LogToDebugConsole($"Error occurred while creating HL7 message {e.Message}");
             }
         }
 
